@@ -49,13 +49,13 @@ public class Asset {
 	}
 	
 	/* method to change the CostBasis of the asset */
-	protected void setCostBasis(Double costBasis) {
+	protected void setCostBasis(double costBasis) {
 		this.costBasis = costBasis;
 	}
 	
 	/* method to get the current price of the asset */
 	public double getCurrentPrice() {
-		return this.getCurrentPrice();
+		return this.currentPrice;
 	}
 	
 	/* method to set the current price of the asset */

@@ -13,8 +13,8 @@ public class Bond extends Asset {
 	public int numberOfBonds = 0;
 	
 	/* bond constructor */
-	 public Bond(String nameOfBond, double principal, double interestRate) {
-		 super(nameOfBond, principal);
+	 public Bond(String nameOfBond, int principal, double interestRate) {
+		 super(nameOfBond, 0);
 		 this.principal = (int) principal;
 		 this.interestRate = interestRate;
 		 this.setCurrentPrice(principal);
@@ -50,12 +50,14 @@ public class Bond extends Asset {
 	 
 	 /* method when someone sells a bond */
 	 public double sell() {
-		 if (this.getNumberOwned() == 0) {
-			 return 0;
-		 } else {
-			 this.setCapitalGains(this.getCapitalGains() + (this.getCurrentPrice() - this.getCostBasis()));
-			 this.numberOfBonds -= 1;
-			 return this.getCurrentPrice();
+		if(this.getNumberOwned() == 0) {
+			return 0;
+		} else {
+			this.setCostBasis(this.getCostBasis() - (this.getCostBasis() / this.getNumberOwned()));
+			this.setCapitalGains(this.getCapitalGains() + 
+					(this.getCurrentPrice() - (this.getCostBasis() / this.getNumberOwned())));
+			this.numberOfBonds = this.numberOfBonds - 1;
+			return this.getCurrentPrice();
 		}
 	 }
 	 
