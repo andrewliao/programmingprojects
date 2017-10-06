@@ -393,11 +393,14 @@ public class TestFile {
 		System.out.println(A1.getCashAccount().getBalance());
 		//it returns 170.0
 		
-		//testing the buyMutualFund method, which I will input 30.0 and it should print out true and the 
+		//testing the buyMutualFund method. I will first test when it is larger than 9.0E7 
+		//and that should return false. Then I will input 30.0 and it should print out true and the 
 		//cashAccount balance should be 140.0
+		System.out.println(A1.buyMutualFund(1000000000));
 		System.out.println(A1.buyMutualFund(30));
 		System.out.println(A1.getCashAccount().getBalance());
-		//it returns true
+		//it returns false
+		//true
 		//140.0
 
 		//testing the sellStockShares method which I will input 7 and that will be multiplied by 7 the commission
@@ -413,7 +416,10 @@ public class TestFile {
 		//it return true
 		//-3367.0
 		
-		
+		//Testing the else part of the buyStockShares which  the input of 100 should return false because 
+		//the 100 stock shares after the buy method in stock is greater than the currentValue of the Customer class
+		System.out.println(A1.buyStockShares(100));
+		//it returns false
 	}
 	
 }

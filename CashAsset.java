@@ -99,11 +99,11 @@ public class CashAsset {
 		}
 	}
 	
-	//processMonth method which should also change the interestAccrued
+	//processMonth method which should also change the interestAccrued and the currentBalance
 	public void processMonth() {
 		this.currentBalance = this.currentBalance + this.getInterestAccrued();
 		this.setInterestAccrued(0);
-		if(this.currentBalance < 0 && this.currentBalance > this.getLoanLimit()) {
+		if(this.currentBalance < 0 && this.currentBalance > -this.getLoanLimit()) {
 			this.currentBalance = this.currentBalance - this.getOverDraftPenalty();
 		}
 	}
