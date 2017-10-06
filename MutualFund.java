@@ -22,7 +22,8 @@ public class MutualFund extends Equity {
 		this.load = load;
 	}
 	
-	//buy method
+	//buy method which takes a double representing the amount you are investing. If it is negative, we return 0,
+	//otherwise we increase the number of shares, change the costBasis, and return the amountInvested
 	public double buy(double amountInvesting) {
 		if(amountInvesting < 0) {
 			return 0;
@@ -34,7 +35,9 @@ public class MutualFund extends Equity {
 		}
 	}
 	
-	//sell method
+	//sell method, which will check to see if amountWithdrawn is positive and greater than currentPrice.
+	//If it is, we sell part of the shares, lower the costBasis, increase the capitals gains, and return 
+	//the amount withdrawn
 	public double sell(double amountWithdrawn) {
 		if (amountWithdrawn < 0 || amountWithdrawn > this.getCurrentPrice()) {
 			return 0;

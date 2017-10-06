@@ -40,7 +40,8 @@ public class Bond extends Asset {
 		 return getInterestRate() * getPrincipal();
 	 }
 	 
-	 /* method when someone buys a bond */
+	 /* method when someone buys a bond. it purchases a bond which increases the cost basis, the number
+	  * of stocks by one, and returns the cuurentprice of the bond*/
 	 public double buy() {
 		 this.setCostBasis(this.getCostBasis() + this.getCurrentPrice());
 		 this.numberOfBonds += 1;
@@ -48,7 +49,9 @@ public class Bond extends Asset {
 		 
 	 }
 	 
-	 /* method when someone sells a bond */
+	 /* method when someone sells a bond , which returns 0, if there are no bonds, otherwise the cost basis
+	  * is reduced, capital gains is increase, and number of bonds is decreased by one, also the 
+	  * current price is returned */
 	 public double sell() {
 		if(this.getNumberOwned() == 0) {
 			return 0;
