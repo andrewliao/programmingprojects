@@ -1,6 +1,7 @@
 /*
  Andrew Liao
  a class to describe a bond which is a subclass of Asset
+ Bond class
  
  */
 public class Bond extends Asset {

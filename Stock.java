@@ -1,6 +1,7 @@
 /*
  * Andrew Liao
  * shares of a stock in a company
+ * Stock class
  */
 public class Stock extends Equity {
 	
@@ -9,8 +10,8 @@ public class Stock extends Equity {
 		super(nameOfStock, symbol, currentPrice);
 	}
 	
-	//buy method takes two integers the number of shares and the commission rate. W e will increase the number
-	//of shares by the input. the Commission rate is then added on with the number of shares into the costBasis
+	//buy method takes two integers the number of shares and the commission rate. We will increase the number
+	//of shares by the input and the Commission rate is then added on with the number of shares into the costBasis
 	//we will then return the number added onto the costBasis
 	public double buy(int numOfShares, double commission) {
 		this.setNumberOfShares(this.getNumberOfShares() + numOfShares);
@@ -19,7 +20,7 @@ public class Stock extends Equity {
 		return z;
 	}
 	
-	//sell method which takes in the number of shares and the commission rate, if the number of shares is greater than the
+	//The sell method which takes in the number of shares and the commission rate, if the number of shares is greater than the
 	//one current we return 0, because we can't sell more than we have. Otherwise we reduce the number of shares, costbasis,
 	//and add to the capitals and we return the price of what we sold for the shares minus the commission fee
 	public double sell(int numOfShares, double commission) {
@@ -35,10 +36,10 @@ public class Stock extends Equity {
 	}
 	
 	
-	//split method takes two input the numerator and the denominator for the ratio and if either is 0 we return 0
+	//split method takes two input the numerator and the denominator for the ratio and if either is 0 we return 0.
 	//otherwise we will we will increase/decrease the number of shares by the amount of the fraction. If there is a fractional
 	//part to it we will have to sell it off and we decrease the costBasis and increase the capital gains
-	//we will return the remainder multiplied by the currentPrice of the stock if there is a fractional part, otherwise we return 0
+	//we will return the remainder multiplied by the currentPrice of the stock if there is a fractional part, otherwise we return 0.
 	public double split(int ratioNum, int ratioDen) {
 		if(ratioNum == 0 || ratioDen == 0) {
 			return 0;

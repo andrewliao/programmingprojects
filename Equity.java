@@ -1,6 +1,6 @@
 /*
  * Andrew Liao
- * where you own shares of the asset
+ * the Equity class
  */
 public class Equity extends Asset {
 	
