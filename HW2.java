@@ -57,6 +57,8 @@ public class HW2 {
 		System.out.println(HW2.subSequence("", ""));
 		System.out.println(HW2.subSequence("", ""));
 		*/
+		
+		System.out.println(HW2.removeEveryKthWord(" Every Who down in Whoville liked Christmas a lot!", 2));
 	}
 	
 	/* This method capitalizes the first character of a sentence. (has to be a letter) */
@@ -119,5 +121,67 @@ public class HW2 {
 		return output.toString();
 	}
 	
+	public static String removeExtraSpaces(String str){
+        int space = 0;
+        boolean firstCharFound = false;
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < str.length(); i++){
+            if(str.charAt(i) != ' '){
+            		firstCharFound = true;
+                sb.append(str.charAt(i));  // add character
+                space = 0;
+            }else{
+                space++;
+                if(space == 1 && firstCharFound){       // add 1st space
+                    sb.append(" ");
+                }
+            }
+        }
+        return new String(sb.toString());
+    }
+	
+	public static String removeEveryKthWord(String input, int k) {
+		//check if the k is negative
+		if(k < 0) {
+			return input;
+		} else {
+			int space = 0;
+			boolean firstCharFound = false;
+			StringBuilder output = new StringBuilder();
+			StringBuilder removed = new StringBuilder();
+			int counter = 1;
+			for(int i = 0; i < input.length(); i++) {
+				if(input.charAt(i) != ' '){
+	            		
+					firstCharFound = true;
+					if(counter == k) {
+						removed.append(input.charAt(i));
+					} else {
+						output.append(input.charAt(i));  // add character
+					}
+					
+	                space = 0;
+				}else{
+					space++;
+					if(space == 1 && firstCharFound){    // add 1st space
+						if(counter == k) {
+							if(input.charAt(i) == ' ') {
+								counter = 1; // check if it is a space
+							}
+						} else {
+							output.append(" ");
+							counter++;
+						}
+						
+					}
+				}
+			}
+			return output.toString();
+		}
+	}
+	
+	public static boolean containsWord(String input1, String input2) {
+		
+	}
 }
 
