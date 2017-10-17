@@ -58,7 +58,7 @@ public class HW2 {
 		System.out.println(HW2.subSequence("", ""));
 		*/
 		
-		System.out.println(HW2.removeEveryKthWord(" Every Who down in Whoville liked Christmas a lot!", 2));
+		System.out.println(HW2.containsWord("Phildelphia Eagles", "ealge"));
 	}
 	
 	/* This method capitalizes the first character of a sentence. (has to be a letter) */
@@ -181,7 +181,62 @@ public class HW2 {
 	}
 	
 	public static boolean containsWord(String input1, String input2) {
-		
+		boolean found = false;
+		boolean firstCharFound = false;
+		StringBuilder word = new StringBuilder();
+		//go through the entire input2 
+		for(int i = 0; i < input2.length(); i++) {
+			if(input2.charAt(i) != ' ' ) {
+				if(!firstCharFound) {
+					firstCharFound = true;
+				}
+				word.append(input2.charAt(i));
+				//test the output if it is finished
+				if(i == input2.length() -1) {
+					boolean wordMatches = true;
+					int count = 0;
+					//test the word compared to input1
+					for(int j = 0; j < word.toString().length(); j++) {
+						for(int k = 0; k < input1.length(); k++) {
+							if(word.toString().charAt(j) == input1.charAt(k)){
+								count++;
+							}
+						}
+						if (count < 1) {
+							wordMatches = false;
+						}
+					}
+					return wordMatches;
+				}
+				
+			} else {
+				if(firstCharFound) {
+					boolean wordMatches = true;
+					int count = 0;
+					//test the word compared to input1
+					for(int j = 0; j < word.toString().length(); j++) {
+						for(int k = 0; k < input1.length(); k++) {
+							if(word.toString().charAt(j) == input1.charAt(k)){
+								count++;
+							}
+						}
+						if (count < 1) {
+							wordMatches = false;
+						}
+					}
+					//if the word matches return true, otherwise go on to the next input word
+					if(wordMatches) {
+						return true;
+					} else {
+						firstCharFound = false;
+						//create a new StringBuilder to store the next word
+						word = new StringBuilder();
+					}
+				}
+				
+			}
+		}
+		return found;
 	}
 }
 
