@@ -58,7 +58,7 @@ public class HW2 {
 		System.out.println(HW2.subSequence("", ""));
 		*/
 		
-		System.out.println(HW2.containsWord("Phildelphia Eagles", "ealge"));
+		System.out.println(HW2.containsWord("One last example", "")   );
 	}
 	
 	/* This method capitalizes the first character of a sentence. (has to be a letter) */
@@ -223,6 +223,7 @@ public class HW2 {
 						if (count < 1) {
 							wordMatches = false;
 						}
+						count = 0;
 					}
 					//if the word matches return true, otherwise go on to the next input word
 					if(wordMatches) {
