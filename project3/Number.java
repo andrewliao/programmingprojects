@@ -1,6 +1,6 @@
 package project3;
 
-public class Number extends Functions {
+public class Number extends Function {
 	
 	private double representation;
 	
@@ -15,11 +15,20 @@ public class Number extends Functions {
 		return representation;
 	}
 	
-	public String derivative() {
-		return "0";
+	public Function derivative() {
+		return new Number(0);
 	}
 	
 	public String toString() {
 		return String.valueOf(representation);
+	}
+	
+	public boolean equals(Object other) {
+		if(other instanceof Number) {
+			Number x = (Number) other;
+			return x.toString() == this.toString();
+		} else {
+			return false;
+		}
 	}
 }

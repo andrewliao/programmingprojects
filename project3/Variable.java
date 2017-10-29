@@ -1,6 +1,6 @@
 package project3;
 
-public class Variable extends Functions {
+public class Variable extends Function {
 	
 	private String representation;
 	
@@ -16,8 +16,8 @@ public class Variable extends Functions {
 		throw new UnsupportedOperationException();
 	}
 	
-	public String derivative() {
-		return "1";
+	public Function derivative() {
+		return new Number(1);
 	}
 	
 	public String toString() {
@@ -25,9 +25,9 @@ public class Variable extends Functions {
 	}
 	
 	public boolean equals(Object other) {
-		if(other instanceOf Variable) {
+		if(other instanceof Variable) {
 			Variable x = (Variable) other;
-			return x.toString()
+			return x.toString() == this.toString();
 		} else {
 			return false;
 		}
