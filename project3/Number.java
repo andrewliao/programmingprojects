@@ -1,6 +1,6 @@
 package project3;
 
-public class Number extends Function {
+public class Number implements Function {
 	
 	private double representation;
 	

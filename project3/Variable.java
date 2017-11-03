@@ -1,6 +1,6 @@
 package project3;
 
-public class Variable extends Function {
+public class Variable implements Function {
 	
 	private String representation;
 	
