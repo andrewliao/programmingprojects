@@ -32,17 +32,30 @@ public class Sin extends Type {
 		return Math.sin(this.getOperand().value(input));
 	}
 	
-	
+	/**
+	 * This returns the derivative of a Sin Function.
+	 * @return This returns the derivative of a Sin Function, which must also incorporate chain rule.
+	 */
 	public Function derivative() {
 		return new BinaryOp(Operator.MULTIPLY, new Cos(this.getOperand()), this.getOperand().derivative());
 	}
 	
+	/**
+	 * This returns a String representation of Sin Function.
+	 * @return the String representation of the Sin Function.
+	 */
 	public String toString() {
 		return "Sin[" + this.getOperand().toString() + "]";
 	}
 	
+	/**
+	 * This checks if another object is equal to this current Sin Function object.
+	 * @param other This is the other object which we will be comparing to.
+	 * @return This returns whether or not this Sin object equals the other object by comparing operands.
+	 */
 	public boolean equals(Object other) {
 		if(other instanceof Sin) {
+			/** This changes the current type of other to Sin. */
 			Sin otherObject = (Sin) other;
 			if(this.getOperand() == otherObject.getOperand()) {
 				return true;
