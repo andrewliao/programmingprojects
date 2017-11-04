@@ -25,26 +25,49 @@ public class BinaryOp implements Function {
 	}
 	
 	public double value() {
-		return left.value() + right.value();
+		switch(operator) {
+			case PLUS:
+				return this.getLeftOperand().value() + this.getRightOperand().value();
+			case MINUS:
+				return this.getLeftOperand().value() - this.getRightOperand().value();
+			case MULTIPLY:
+				return this.getLeftOperand().value() * this.getRightOperand().value();
+			case DIVIDE:
+				return this.getLeftOperand().value() / this.getRightOperand().value();	
+			default:
+				return 0;
+		}
+				
 	}
 	
 	public double value(double input) {
-		
+		switch(operator) {
+		case PLUS:
+			return this.getLeftOperand().value(input) + this.getRightOperand().value(input);
+		case MINUS:
+			return this.getLeftOperand().value(input) - this.getRightOperand().value(input);
+		case MULTIPLY:
+			return this.getLeftOperand().value(input) * this.getRightOperand().value(input);
+		case DIVIDE:
+			return this.getLeftOperand().value(input) / this.getRightOperand().value(input);	
+		default:
+			return 0;
+		}
 	}
 	
 	public Function derivative() {
-		if(this.operator == Operator.DIVIDE) {
+		if(this.getOperator() == Operator.DIVIDE) {
 			BinaryOp numeratorLeftProduct = new BinaryOp(Operator.MULTIPLY, this.getRightOperand(), this.getLeftOperand().derivative());
 			BinaryOp numeratorRightProduct = new BinaryOp(Operator.MULTIPLY, this.getRightOperand().derivative(), this.getLeftOperand());
 			BinaryOp numerator = new BinaryOp(Operator.MINUS, numeratorLeftProduct, numeratorRightProduct);
 			BinaryOp denominator = new BinaryOp(Operator.MULTIPLY, this.getRightOperand(), this.getRightOperand());
 			return new BinaryOp(Operator.DIVIDE, numerator, denominator);
-		} else if(this.operator == Operator.MULTIPLY) {
+		} else if(this.getOperator() == Operator.MULTIPLY) {
 			BinaryOp numeratorLeftProduct = new BinaryOp(Operator.MULTIPLY, this.getRightOperand(), this.getLeftOperand().derivative());
 			BinaryOp numeratorRightProduct = new BinaryOp(Operator.MULTIPLY, this.right.derivative(), this.getLeftOperand());
 			return new BinaryOp(Operator.PLUS, numeratorLeftProduct, numeratorRightProduct);
 		} else {
-			return new BinaryOp(this.operator, this.getLeftOperand().derivative(), this.getRightOperand().derivative());
+			return new BinaryOp(this.getOperator(), this.getLeftOperand().derivative(), this.getRightOperand().derivative());
 		}
 	}
 	
@@ -62,24 +85,43 @@ public class BinaryOp implements Function {
 	}
 	
 	public String toString() {
-		String result;
-		if (this.getLeftOperand() instanceof BinaryOp) {
-			result = "(" + this.getLeftOperand() + ")";
-		} else {
-			result = this.getLeftOperand().toString();
+		String result = "";
+		String sign;
+		switch(operator) {
+		case PLUS:
+			sign = "+";
+			break;
+		case MINUS:
+			sign = "-";
+			break;
+		case MULTIPLY:
+			sign = "*";
+			break;
+		case DIVIDE:
+			sign = "/";
+			break;
+		default:
+			sign = "";
 		}
 		
-		result = result + this.getOperator();
+		if (this.getLeftOperand() instanceof BinaryOp) {
+			result = "(" + this.getLeftOperand().toString() + ")";
+		} else {
+			result += this.getLeftOperand().toString();
+		}
 		
+		result = result + sign;
+	
 		if(this.getRightOperand() instanceof BinaryOp) {
 			BinaryOp rightSide = (BinaryOp) this.getRightOperand();
 			if(rightSide.getOperator() != this.getOperator()) {
-				result = result + "(" + rightSide.getOperator() + ")";
+				result = result + "(" + rightSide.toString() + ")";
 			} else {
-				result = this.getRightOperand().toString();
+				result  += this.getRightOperand().toString();
 			}
 		} else {
-			result = this.getRightOperand().toString();
+			result  += this.getRightOperand().toString();
+	
 		}
 		
 		return result;

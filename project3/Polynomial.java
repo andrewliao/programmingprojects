@@ -19,12 +19,12 @@ public class Polynomial implements Function {
 	}
 	
 	public Function derivative() {
-		if(this.power.value() > 1) {
-			return new BinaryOp (Operator.MULTIPLY, new BinaryOp(Operator.MULTIPLY, this.getPower(), this.getOperand()), this.getOperand().derivative());
-		} else if (this.power.value() == 1) {
+		if(this.getPower().value() > 1) {
+			return new BinaryOp (Operator.MULTIPLY, new BinaryOp(Operator.MULTIPLY, this.getPower(), new Polynomial(this.getOperand(), this.getPower().value() -1 )), this.getOperand().derivative());
+		} else if (this.getPower().value() == 1) {
 			return this.getOperand().derivative();
 		} else {
-			 return new BinaryOp(Operator.DIVIDE, new BinaryOp(Operator.MULTIPLY, this.getPower(), this.getOperand()), this.getOperand().derivative());
+			 return new BinaryOp(Operator.DIVIDE, new BinaryOp(Operator.MULTIPLY, this.getPower(), this.getOperand().derivative()), new Polynomial(this.getOperand(), this.getPower().value() -1 ));
 		}
 	}
 	
@@ -38,16 +38,16 @@ public class Polynomial implements Function {
 	
 	public String toString() {
 		if(this.operand instanceof BinaryOp) {
-			return "(" + this.getOperand().toString() + ")";
+			return "(" + this.getOperand().toString() + ")" + "^" + this.getPower().toString();
 		} else {
-			return this.getOperand().toString() + "^" + power;
+			return this.getOperand().toString() + "^" + this.getPower().toString();
 		}
 	}
 	
 	public boolean equals(Object other) {
 		if(other instanceof Polynomial) {
 			Polynomial otherObject = (Polynomial) other;
-			if(this.operand == otherObject.operand && this.power == otherObject.getOperand()) {
+			if(this.getOperand() == otherObject.getOperand() && this.getPower() == otherObject.getPower()) {
 				return true;
 			} else {
 				return false;
