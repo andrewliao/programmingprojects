@@ -20,7 +20,7 @@ public class Cos implements Function {
 	}
 	
 	public Function derivative() {
-		return new BinaryOp(Operator.MULTIPLY, new BinaryOp(Operator.MULTIPLY, new Number(-1), new Cos(this.getOperand())), this.getOperand().derivative());
+		return new BinaryOp(Operator.MULTIPLY, new BinaryOp(Operator.MULTIPLY, new Number(-1), new Sin(this.getOperand())), this.getOperand().derivative());
 	}
 	
 	public String toString() {
