@@ -1,10 +1,9 @@
 package project3;
 
-public class Exp implements Function {
-	private Function operand;
+public class Exp extends Type {
 	
 	public Exp(Function operand) {
-		this.operand = operand;
+		super(operand);
 	}
 	
 	public double value() {
@@ -15,16 +14,13 @@ public class Exp implements Function {
 		return Math.pow(Math.E, this.getOperand().value(input));
 	}
 	
-	public Function getOperand() {
-		return this.operand;
-	}
 	
 	public Function derivative() {
 		return new BinaryOp(Operator.MULTIPLY, this, this.getOperand().derivative());
 	}
 	
 	public String toString() {
-		return "Exp[" + this.operand.toString() + "]";
+		return "Exp[" + this.getOperand().toString() + "]";
 	}
 	
 	public boolean equals(Object other) {

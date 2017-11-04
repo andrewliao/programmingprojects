@@ -26,13 +26,24 @@ public class TestFile {
 		System.out.println(d);
 		System.out.println(d.derivative());
 		
-		BinaryOp u = new BinaryOp(Operator.DIVIDE, x, z);
-		System.out.println(p);
-		System.out.println(p.derivative());
+		Polynomial qw = new Polynomial(y, -3);
+		Log za = new Log(qw);
+		System.out.println(za);
+		System.out.println(za.derivative());
 		
 		Exp m = new Exp(a);
 		System.out.println(m);
 		System.out.println(m.derivative());
+		
+		Polynomial mason11 = new Polynomial(y, 4);
+		Exp mason1 = new Exp(mason11);
+		Polynomial mason222 = new Polynomial(y, 2);
+		BinaryOp mason22 = new BinaryOp(Operator.MULTIPLY, new Number(3), mason222);
+		Sin mason2 = new Sin(mason22);
+		BinaryOp mason = new BinaryOp(Operator.MULTIPLY, mason1, mason2);
+		System.out.println(mason);
+		System.out.println(mason.derivative());
+		
 		
 	}
 }

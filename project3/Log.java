@@ -1,11 +1,9 @@
 package project3;
 
-public class Log implements Function {
-	
-	private Function operand;
+public class Log extends Type {
 	
 	public Log(Function operand) {
-		this.operand = operand;
+		super(operand);
 	}
 	
 	public double value() {
@@ -16,16 +14,12 @@ public class Log implements Function {
 		return Math.log(this.getOperand().value(input));
 	}
 	
-	public Function getOperand() {
-		return this.operand;
-	}
-	
 	public Function derivative() {
 		return new BinaryOp(Operator.DIVIDE, new Number(1), this.getOperand().derivative());
 	}
 	
 	public String toString() {
-		return "Log[" + this.operand.toString() + "]";
+		return "Log[" + this.getOperand().toString() + "]";
 	}
 	
 	public boolean equals(Object other) {
