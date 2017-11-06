@@ -1,7 +1,7 @@
 package project3;
 /**
  * This class represents a Sin function which is a Type and also a Function.
- * @author andrewliao
+ * @author Andrew Liao
  *
  */
 
@@ -57,7 +57,7 @@ public class Sin extends Type {
 		if(other instanceof Sin) {
 			/** This changes the current type of other to Sin. */
 			Sin otherObject = (Sin) other;
-			if(this.getOperand() == otherObject.getOperand()) {
+			if(this.getOperand().equals(otherObject.getOperand())) {
 				return true;
 			} else {
 				return false;

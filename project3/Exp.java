@@ -57,7 +57,7 @@ public class Exp extends Type {
 		if(other instanceof Exp) {
 			/** This changes the current type of other to being an Exp Function. */
 			Exp otherObject = (Exp) other;
-			if(this.getOperand() == otherObject.getOperand()) {
+			if(this.getOperand().equals(otherObject.getOperand())) {
 				return true;
 			} else {
 				return false;

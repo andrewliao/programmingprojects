@@ -37,7 +37,7 @@ public class Log extends Type {
 	 * @return This returns the derivative of a Log Function, which must also incorporate chain rule.
 	 */
 	public Function derivative() {
-		return new BinaryOp(BinaryOp.Op.DIVIDE, new Number(1), this.getOperand().derivative());
+		return new BinaryOp(BinaryOp.Op.MULTIPLY, new BinaryOp(BinaryOp.Op.DIVIDE, new Number(1), this.getOperand()), this.getOperand().derivative());
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class Log extends Type {
 		if(other instanceof Log) {
 			/** This changes the current type to a Log Function */
 			Log otherObject = (Log) other;
-			if(this.getOperand() == otherObject.getOperand()) {
+			if(this.getOperand().equals(otherObject.getOperand())) {
 				return true;
 			} else {
 				return false;

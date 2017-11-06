@@ -57,7 +57,7 @@ public class Cos extends Type {
 		if(other instanceof Cos) {
 			/** This changes the current type of other to become Cos. */
 			Cos otherObject = (Cos)other;
-			if(this.getOperand() == otherObject.getOperand()) {
+			if(this.getOperand().equals(otherObject.getOperand())) {
 				return true;
 			} else {
 				return false;
