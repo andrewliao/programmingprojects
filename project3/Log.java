@@ -37,7 +37,7 @@ public class Log extends Type {
 	 * @return This returns the derivative of a Log Function, which must also incorporate chain rule.
 	 */
 	public Function derivative() {
-		return new BinaryOp(Operator.DIVIDE, new Number(1), this.getOperand().derivative());
+		return new BinaryOp(BinaryOp.Op.DIVIDE, new Number(1), this.getOperand().derivative());
 	}
 	
 	/**

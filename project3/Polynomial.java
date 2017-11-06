@@ -44,11 +44,11 @@ public class Polynomial implements Function {
 	 */
 	public Function derivative() {
 		if(this.getPower().value() > 1) {
-			return new BinaryOp (Operator.MULTIPLY, new BinaryOp(Operator.MULTIPLY, this.getPower(), new Polynomial(this.getOperand(), this.getPower().value() -1 )), this.getOperand().derivative());
+			return new BinaryOp (BinaryOp.Op.MULTIPLY, new BinaryOp(BinaryOp.Op.MULTIPLY, this.getPower(), new Polynomial(this.getOperand(), this.getPower().value() -1 )), this.getOperand().derivative());
 		} else if (this.getPower().value() == 1) {
 			return this.getOperand().derivative();
 		} else {
-			 return new BinaryOp(Operator.MULTIPLY, new BinaryOp(Operator.MULTIPLY, this.getPower(), this.getOperand().derivative()), new Polynomial(this.getOperand(), this.getPower().value() -1 ));
+			 return new BinaryOp(BinaryOp.Op.MULTIPLY, new BinaryOp(BinaryOp.Op.MULTIPLY, this.getPower(), this.getOperand().derivative()), new Polynomial(this.getOperand(), this.getPower().value() -1 ));
 		}
 	}
 	

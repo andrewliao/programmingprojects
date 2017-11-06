@@ -37,7 +37,7 @@ public class Cos extends Type {
 	 * @return This returns the derivative of a Cos Function, which must also incorporate chain rule.
 	 */
 	public Function derivative() {
-		return new BinaryOp(Operator.MULTIPLY, new BinaryOp(Operator.MULTIPLY, new Number(-1), new Sin(this.getOperand())), this.getOperand().derivative());
+		return new BinaryOp(BinaryOp.Op.MULTIPLY, new BinaryOp(BinaryOp.Op.MULTIPLY, new Number(-1), new Sin(this.getOperand())), this.getOperand().derivative());
 	}
 	
 	/**

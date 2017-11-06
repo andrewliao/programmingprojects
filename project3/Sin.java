@@ -37,7 +37,7 @@ public class Sin extends Type {
 	 * @return This returns the derivative of a Sin Function, which must also incorporate chain rule.
 	 */
 	public Function derivative() {
-		return new BinaryOp(Operator.MULTIPLY, new Cos(this.getOperand()), this.getOperand().derivative());
+		return new BinaryOp(BinaryOp.Op.MULTIPLY, new Cos(this.getOperand()), this.getOperand().derivative());
 	}
 	
 	/**

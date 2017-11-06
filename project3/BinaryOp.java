@@ -10,7 +10,7 @@ public class BinaryOp implements Function {
 	/** These fields store the operands of the BinaryOp. */
 	private Function left, right;
 	/** This field stores the operator of BinaryOp. */
-	private Operator operator;
+	private Op operator;
 	
 	/**
 	 * The constructor creates a BinaryOp that stores the operator along with its operands.
@@ -18,7 +18,7 @@ public class BinaryOp implements Function {
 	 * @param left This represents the operand to the left of the operator.
 	 * @param right This represents the operand to the right of the operator.
 	 */
-	public BinaryOp(Operator operator, Function left, Function right) {
+	public BinaryOp(Op operator, Function left, Function right) {
 		this.operator = operator;
 		this.left = left;
 		this.right = right;
@@ -28,7 +28,7 @@ public class BinaryOp implements Function {
 	 * This is the getter method for the operator.
 	 * @return This returns the operator of the BinaryOp object.
 	 */
-	public Operator getOperator() {
+	public Op getOperator() {
 		return this.operator;
 	}
 	
@@ -93,22 +93,22 @@ public class BinaryOp implements Function {
 	 * @return It return any type of Function representation of BinaryOp.
 	 */
 	public Function derivative() {
-		if(this.getOperator() == Operator.DIVIDE) {
+		if(this.getOperator() == Op.DIVIDE) {
 			/** This stores the left part of the numerator of the derivative of a fractional BinaryOp. a.k.a low derivative high */
-			BinaryOp numeratorLeftProduct = new BinaryOp(Operator.MULTIPLY, this.getRightOperand(), this.getLeftOperand().derivative());
+			BinaryOp numeratorLeftProduct = new BinaryOp(Op.MULTIPLY, this.getRightOperand(), this.getLeftOperand().derivative());
 			/** This store the right part of the numerator of the derivative of a fractional BinaryOp. a.k.a. high derivative low */
-			BinaryOp numeratorRightProduct = new BinaryOp(Operator.MULTIPLY, this.getRightOperand().derivative(), this.getLeftOperand());
+			BinaryOp numeratorRightProduct = new BinaryOp(Op.MULTIPLY, this.getRightOperand().derivative(), this.getLeftOperand());
 			/** This stores the BinaryOp representation of the numerator of the derivative of the BinaryOp which is the left part minus the right part. */
-			BinaryOp numerator = new BinaryOp(Operator.MINUS, numeratorLeftProduct, numeratorRightProduct);
+			BinaryOp numerator = new BinaryOp(Op.MINUS, numeratorLeftProduct, numeratorRightProduct);
 			/** This stores the denominator representation of the derivative of a fractional BinaryOp. a.k.a Low squared */
-			BinaryOp denominator = new BinaryOp(Operator.MULTIPLY, this.getRightOperand(), this.getRightOperand());
-			return new BinaryOp(Operator.DIVIDE, numerator, denominator);
-		} else if(this.getOperator() == Operator.MULTIPLY) {
+			BinaryOp denominator = new BinaryOp(Op.MULTIPLY, this.getRightOperand(), this.getRightOperand());
+			return new BinaryOp(Op.DIVIDE, numerator, denominator);
+		} else if(this.getOperator() == Op.MULTIPLY) {
 			/** This represents the left side of the derivative of a BinaryOp with a multiplication as an operator. a.k.a Left Operand Derivative Multiply Right Operand */
-			BinaryOp numeratorLeftProduct = new BinaryOp(Operator.MULTIPLY, this.getRightOperand(), this.getLeftOperand().derivative());
+			BinaryOp numeratorLeftProduct = new BinaryOp(Op.MULTIPLY, this.getRightOperand(), this.getLeftOperand().derivative());
 			/** This represents the right side of the derivative of a BinaryOp with a multiplication as an operator. a.k.a Derivative Left Operand Multiply Right Operand */
-			BinaryOp numeratorRightProduct = new BinaryOp(Operator.MULTIPLY, this.right.derivative(), this.getLeftOperand());
-			return new BinaryOp(Operator.PLUS, numeratorLeftProduct, numeratorRightProduct);
+			BinaryOp numeratorRightProduct = new BinaryOp(Op.MULTIPLY, this.right.derivative(), this.getLeftOperand());
+			return new BinaryOp(Op.PLUS, numeratorLeftProduct, numeratorRightProduct);
 		} else {
 			return new BinaryOp(this.getOperator(), this.getLeftOperand().derivative(), this.getRightOperand().derivative());
 		}
@@ -182,4 +182,9 @@ public class BinaryOp implements Function {
 		return result;
 		
 	}
+	
+	public enum Op {
+		PLUS, MINUS, MULTIPLY, DIVIDE;
+	}
+
 }

@@ -37,7 +37,7 @@ public class Exp extends Type {
 	 * @return This returns the derivative of an Exp Function, which must also incorporate chain rule.
 	 */
 	public Function derivative() {
-		return new BinaryOp(Operator.MULTIPLY, this, this.getOperand().derivative());
+		return new BinaryOp(BinaryOp.Op.MULTIPLY, this, this.getOperand().derivative());
 	}
 	
 	/**
