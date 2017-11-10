@@ -1,3 +1,5 @@
+package project1_2;
+
 /*
  Andrew Liao
  a class to describe a bond which is a subclass of Asset

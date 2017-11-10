@@ -1,3 +1,4 @@
+package project1_2;
 /*
  * Andrew Liao
  * a class that represents money reserves

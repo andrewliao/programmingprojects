@@ -1,3 +1,5 @@
+package project1_2;
+
 public class TestFile {
 	public static void main(String[] args) {
 		//testing the Asset class methods

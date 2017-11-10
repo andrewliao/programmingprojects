@@ -1,3 +1,5 @@
+package project1_2;
+
 /*
  * Andrew Liao
  * shares of a stock in a company

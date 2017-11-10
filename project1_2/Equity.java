@@ -1,3 +1,5 @@
+package project1_2;
+
 /*
  * Andrew Liao
  * the Equity class

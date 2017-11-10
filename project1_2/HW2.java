@@ -1,3 +1,4 @@
+package project1_2;
 /*
  * Andrew Liao
  * This HW2 class lets us manipulate strings in certain ways.

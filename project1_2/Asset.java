@@ -1,3 +1,4 @@
+package project1_2;
 /*
  Andrew Liao
  Asset class represents any tangible property of an asset

@@ -1,3 +1,5 @@
+package project1_2;
+
 /*
  * Andrew Liao
  * an equity that is the shares of mutual funds
