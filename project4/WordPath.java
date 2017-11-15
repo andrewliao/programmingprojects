@@ -1,6 +1,7 @@
 package project4;
 
 import java.io.*;
+import java.util.LinkedList;
 
 /**
  * 
@@ -9,9 +10,19 @@ import java.io.*;
  */
 
 public class WordPath {
+	/**
+	 * This is a static method which reads the number of lines from a file.
+	 * @param reader This input is the file reader that we need to input so we can read the file.
+	 * @return This returns the number of lines in that file.
+	 */
 	public static int numLines(Reader reader) throws IOException {
+		/** create a buffered reader to read the lines from your input reader */
 		BufferedReader br = new BufferedReader(reader);
+		/** variable to store the number of lines */
 		int lines = 0;
+		/**
+		 * This checks if the buffered reader is a line or not. If it not null we increase the line count on our file.
+		 */
 		while(br.readLine() != null) {
 			lines++;
 		}
@@ -19,21 +30,63 @@ public class WordPath {
 		return lines;
 	}
 	
-	public WordData[] makeWordArray(String fileName) throws IOException {
+	/**
+	 * This class returns the WordData from each line of a file.
+	 * @param fileName This is the input file name that we are going to read.
+	 * @return We will return a WordData[] array that contains a WordData describing each line in the file.
+	 * @throws IOException We will throw and IOExcpetion if the file does not exist.
+	 */
+	public static WordData[] makeWordArray(String fileName) throws IOException {
+		/** fileReader object to read our file */
 		FileReader x = new FileReader(fileName);
+		/** variable to store the number of lines in the file. */
 		int numOfLines = WordPath.numLines(x);
+		/** creating the size of the WordData array. */
 		WordData[] y = new WordData[numOfLines];
 		x.close();
 		
+		/** bufferedReader object to read and create each individual WordData object for the output array. */
 		BufferedReader z = new BufferedReader(new FileReader(fileName));
+		/** variable to hold each current line */
 		String line;
+		/** variable to iterate through the array*/
 		int i = 0;
-		WordData thing = new WordData();
 		while((line = z.readLine()) != null) {
-			y[i++] = thing.parseWordData(line);
+			y[i++] = WordData.parseWordData(line);
 		}
 		return y;
-		
-		
 	}
+		
+	/**
+	 * This method should return a LinkedList that contains the path from the start to the destination of the mutated word.
+	 * 
+	 */
+	public static LinkedList<Integer> getPath(int start, int destination, WordData[] file) {
+			/** the output LinkedList */
+			LinkedList<Integer> path = new LinkedList<Integer>();
+			if(start == destination) {
+				path.add(start);
+				return path;
+			}
+			
+			LinkedList<Integer> indicesOfWords = file[start].getLlData();
+			
+			for(int i = 0; i < indicesOfWords.size(); i++) {
+				if(file[indicesOfWords.get(i)].getFlag() != true) {
+					file[indicesOfWords.get(i)].setFlag(true);
+					LinkedList<Integer> testPath = WordPath.getPath(i, destination, file);
+					if(testPath != null) {
+						testPath.add(start, 0);
+						return testPath;
+					}
+				}
+			}
+			
+			return null;
+	}
+	
+	
+	
+
+	
 }

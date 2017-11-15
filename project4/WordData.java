@@ -10,12 +10,12 @@ import java.util.Scanner;
  */
 
 public class WordData {
-	/** stores the integer of the data */
-	private int intData;
+	/** stores the integer of the line Number of the data */
+	private int lineNumber;
 	/** stores a String of the data */
-	private String stringData;
-	/** stores a boolean describing the data */
-	private boolean boolData;
+	private String word;
+	/** stores a boolean describing if the data is marked*/
+	private boolean flag;
 	/** stores a LinkedList containing Integers of the data */
 	private LinkedList<Integer> llData;
 	
@@ -23,48 +23,48 @@ public class WordData {
 	 * The getter method for the intData.
 	 * @return This returns the intData field of the WordData class.
 	 */
-	public int getIntData() {
-		return intData;
+	public int getLineNumber() {
+		return lineNumber;
 	}
 	
 	/**
 	 * This is the setter method for intData.
 	 * @param intData This is the data which we will set the field intData of WordData to be.
 	 */
-	public void setIntData(int intData) {
-		this.intData = intData;
+	public void setLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
 	}
 	
 	/**
 	 * The getter method for stringData.
 	 * @return This returns the stringData field of the WordData class.
 	 */
-	public String getStringData() {
-		return stringData;
+	public String getWord() {
+		return word;
 	}
 	
 	/**
-	 * The setter method for stringData.
-	 * @param stringData This is the data which we set the field of stringData of WordData to be.
+	 * The setter method for word.
+	 * @param word This is the data which we set the field of word of WordData to be.
 	 */
-	public void setStringData(String stringData) {
-		this.stringData = stringData;
+	public void setWord(String word) {
+		this.word = word;
 	}
 	
 	/**
 	 * The getter method for boolData.
 	 * @return This returns the boolData field of the WordData class.
 	 */
-	public boolean getBoolData() {
-		return boolData;
+	public boolean getFlag() {
+		return flag;
 	}
 
 	/**
-	 * The setter method for boolData.
-	 * @param boolData This is the data which we set the field of boolData of WordData to be.
+	 * The setter method for flag.
+	 * @param flagThis is the data which we set the field of flag of WordData to be.
 	 */
-	public void setBoolData(boolean boolData) {
-		this.boolData = boolData;
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 	
 	/**
@@ -84,16 +84,18 @@ public class WordData {
 	}
 	
 	/**
-	 * This method 
-	 * @param input
-	 * @return
+	 * This method creates another WordData object based on the String input it receives from a file.
+	 * @param input This input represents the String line it receives from a file.
+	 * @return It returns a WordData with its fields set to the information provided by the String input.
 	 */
-	public WordData parseWordData(String input) {
+	public static WordData parseWordData(String input) {
+		/** the output WordData object */
 		WordData output = new WordData();
+		/** scanner object to read the String input line*/
 		Scanner scanner = new Scanner(input);
-		output.setIntData(scanner.nextInt());
-		output.setStringData(scanner.next());
-		output.setBoolData(false);
+		output.setLineNumber(scanner.nextInt());
+		output.setWord(scanner.next());
+		output.setFlag(false);
 		/** This variable will store the numbers that follow the word */
 		LinkedList<Integer> inputNum = new LinkedList<Integer>();
 		/**
