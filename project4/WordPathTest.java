@@ -33,7 +33,7 @@ public class WordPathTest {
 	public void testGetPath() throws IOException {
 		LinkedList<Integer> test = new LinkedList<Integer>();
 		WordData[] y = WordPath.makeWordArray("/Users/andrewliao/code/programmingprojects/project4/SmallWordIndex");
-		test = WordPath.getPath(0, 11, y);
+		test = WordPath.getPath(1, 10, y);
 		System.out.println("Testing:");
 		System.out.println(test);
 	}

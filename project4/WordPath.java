@@ -10,6 +10,7 @@ import java.util.LinkedList;
  */
 
 public class WordPath {
+	
 	/**
 	 * This is a static method which reads the number of lines from a file.
 	 * @param reader This input is the file reader that we need to input so we can read the file.
@@ -61,29 +62,29 @@ public class WordPath {
 	 * This method should return a LinkedList that contains the path from the start to the destination of the mutated word.
 	 * 
 	 */
-	public static LinkedList<Integer> getPath(int start, int destination, WordData[] file) {
-			/** the output LinkedList */
-			LinkedList<Integer> path = new LinkedList<Integer>();
-			if(start == destination) {
-				path.add(start);
-				return path;
-			}
-			
-			LinkedList<Integer> indicesOfWords = file[start].getLlData();
-			
-			for(int i = 0; i < indicesOfWords.size(); i++) {
-				if(file[indicesOfWords.get(i)].getFlag() != true) {
-					file[indicesOfWords.get(i)].setFlag(true);
-					LinkedList<Integer> testPath = WordPath.getPath(i, destination, file);
-					if(testPath != null) {
-						testPath.add(start, 0);
-						return testPath;
-					}
+	public static LinkedList<Integer> getPath(int start, int destination, WordData[] words) {
+
+		if(start == destination) {
+			LinkedList<Integer> output = new LinkedList<Integer>();
+			output.add(start);
+			return output;
+		}
+		
+		LinkedList<Integer> possibleNumbers = words[start].getLlData();
+		for(Integer possibility: possibleNumbers) {
+			if (!words[possibility].getFlag()) {
+				words[possibility].setFlag(true);
+				LinkedList<Integer> path = WordPath.getPath(possibility, destination, words);
+				if(path != null) {
+					path.addFirst(start);
+					return path;
 				}
 			}
-			
-			return null;
+		}
+		return null;
+		
 	}
+	
 	
 	
 	
