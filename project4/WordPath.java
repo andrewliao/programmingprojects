@@ -3,6 +3,8 @@ package project4;
 import java.io.*;
 import java.util.LinkedList;
 
+import javax.swing.JOptionPane;
+
 /**
  * 
  * @author Andrew Liao
@@ -85,6 +87,65 @@ public class WordPath {
 		
 	}
 	
+	/**
+	 * This method 
+	 * @throws IOException 
+	 */
+	public void getWordPath(String file) throws IOException {
+		boolean quit = false;
+		while(!quit) {
+			WordData[] words = WordPath.makeWordArray(file);
+			String word1 = JOptionPane.showInputDialog("Input word1:");
+			String word2 = JOptionPane.showInputDialog("Input word2:");
+			
+			boolean found1 = false;
+			int lineOfWord1 = 0;
+			for(int i = 0; i < words.length; i++) {
+				if(word1.compareTo(words[i].getWord()) == 0) {
+					found1 = true;
+					lineOfWord1 = words[i].getLineNumber();
+				}
+			}
+			
+			boolean found2 = false;
+			int lineOfWord2 = 0;
+			for(int i = 0; i < words.length; i++) {
+				if(word2.compareTo(words[i].getWord()) == 0) {
+					found2 = true;
+					lineOfWord2 = words[i].getLineNumber();
+				}
+			}
+			
+			System.out.println(lineOfWord1);
+			System.out.println(lineOfWord2);
+			
+			LinkedList<Integer> test = new LinkedList<Integer>();
+			test = WordPath.getPath(lineOfWord1, lineOfWord2, words);
+			for(Integer index: test) {
+				System.out.println(words[index].getWord());
+			}
+			
+			
+			for(int i = 0; i < words.length; i++) {
+				words[i].setFlag(false);
+			}
+			
+			String loop = JOptionPane.showInputDialog("Type quit if you want to stop, Otherwise anything else we will continue!");
+			if(loop.compareTo("quit") == 0) {
+				quit = true;
+			}
+		}
+		
+	}
+		
+	public static void main(String[] args) {
+			try {
+				WordPath x = new WordPath();
+				x.getWordPath(args[0]);
+			} catch(IOException exc) {
+				System.out.println("File not found!");
+			}
+	}
 	
 	
 	

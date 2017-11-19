@@ -4,16 +4,20 @@ import static org.junit.Assert.*;
 import java.io.*;
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 import org.junit.Test;
 
 public class WordPathTest {
-
+	
+/**
 	@Test
 	public void testNumLines() throws IOException {
 		FileReader x = new FileReader("/Users/andrewliao/code/programmingprojects/project4/SmallWordIndex");
 		assertTrue(WordPath.numLines(x) == 15);
 	
 	}
+	
 	
 	@Test
 	public void testMakeWordArray() throws IOException{
@@ -28,13 +32,24 @@ public class WordPathTest {
 			System.out.println(object.getLlData());
 		}
 	}
+*/
 
 	@Test
 	public void testGetPath() throws IOException {
+		
 		LinkedList<Integer> test = new LinkedList<Integer>();
 		WordData[] y = WordPath.makeWordArray("/Users/andrewliao/code/programmingprojects/project4/SmallWordIndex");
 		test = WordPath.getPath(1, 10, y);
 		System.out.println("Testing:");
 		System.out.println(test);
+		
+		WordPath x = new WordPath();
+		x.getWordPath("/Users/andrewliao/code/programmingprojects/project4/SmallWordIndex");
+		
+		String[] argument = new String[1];
+		argument[0] = JOptionPane.showInputDialog("Input file name:");
+		WordPath.main(argument);
 	}
+	
+	
 }
