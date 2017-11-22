@@ -10,15 +10,27 @@ import org.junit.Test;
 
 public class WordPathTest {
 	
-/**
+
 	@Test
 	public void testNumLines() throws IOException {
-		FileReader x = new FileReader("/Users/andrewliao/code/programmingprojects/project4/SmallWordIndex");
-		assertTrue(WordPath.numLines(x) == 15);
-	
+		/** testing this method with 5 lines using a StringReader variable called lines */
+		StringReader lines = new StringReader("a \n ba \n asdf \n asdf \n df ");
+		assertTrue(WordPath.numLines(lines) == 5);
+		
+		/** testing 0: a buffered reader with a reader input that has no lines */
+		StringReader zero = new StringReader("");
+		assertTrue(WordPath.numLines(zero) == 0);
+		
+		/** testing 1: a buffered reader with a reader input that has 1 line */
+		StringReader one = new StringReader("asdf");
+		assertTrue(WordPath.numLines(one) == 1);
+		
+		/** testing 2: a buffered reader with a reader input of more than 1 line */
+		StringReader two = new StringReader("asdfds\nasdfsdf");
+		assertTrue(WordPath.numLines(two) == 2);
 	}
 	
-	
+	/**
 	@Test
 	public void testMakeWordArray() throws IOException{
 		WordPath x = new WordPath();
@@ -26,13 +38,13 @@ public class WordPathTest {
 		
 		WordData[] y = WordPath.makeWordArray("/Users/andrewliao/code/programmingprojects/project4/SmallWordIndex");
 		for(WordData object: y) {
-			System.out.println(object.getFlag());
+			System.out.println(object.getVisited());
 			System.out.println(object.getLineNumber());
 			System.out.println(object.getWord());
 			System.out.println(object.getLlData());
 		}
 	}
-*/
+	*/
 
 	@Test
 	public void testGetPath() throws IOException {
@@ -43,13 +55,13 @@ public class WordPathTest {
 		System.out.println("Testing:");
 		System.out.println(test);
 		
-		WordPath x = new WordPath();
-		x.getWordPath("/Users/andrewliao/code/programmingprojects/project4/SmallWordIndex");
+		assertTrue(test.get(0) == 1);
+		assertTrue(test.get(test.size() -1 ) == 10);
 		
-		String[] argument = new String[1];
-		argument[0] = JOptionPane.showInputDialog("Input file name:");
-		WordPath.main(argument);
+		LinkedList<Integer> test2 = new LinkedList<Integer>();
+		test2 = WordPath.getPath(1, 10, null);
+		System.out.println(test2);
+		
 	}
-	
 	
 }

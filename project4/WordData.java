@@ -15,8 +15,8 @@ public class WordData {
 	/** stores a String of the data */
 	private String word;
 	/** stores a boolean describing if the data is marked*/
-	private boolean flag;
-	/** stores a LinkedList containing Integers of the data */
+	private boolean visited;
+	/** stores a LinkedList containing the index of the words which are just one character different */
 	private LinkedList<Integer> llData;
 	
 	/**
@@ -55,16 +55,16 @@ public class WordData {
 	 * The getter method for boolData.
 	 * @return This returns the boolData field of the WordData class.
 	 */
-	public boolean getFlag() {
-		return flag;
+	public boolean getVisited() {
+		return visited;
 	}
 
 	/**
-	 * The setter method for flag.
-	 * @param flagThis is the data which we set the field of flag of WordData to be.
+	 * The setter method for visited.
+	 * @param flagThis is the data which we set the field of visited of WordData to be.
 	 */
-	public void setFlag(boolean flag) {
-		this.flag = flag;
+	public void setVisited(boolean visited) {
+		this.visited = visited;
 	}
 	
 	/**
@@ -95,11 +95,13 @@ public class WordData {
 		Scanner scanner = new Scanner(input);
 		output.setLineNumber(scanner.nextInt());
 		output.setWord(scanner.next());
-		output.setFlag(false);
+		output.setVisited(false);
 		/** This variable will store the numbers that follow the word */
 		LinkedList<Integer> inputNum = new LinkedList<Integer>();
 		/**
-		 * adding the numbers that follow the word
+		 * The goal of the loop is to add the integers of the string, which refer to the numLine of other WordData, to the linkedlist.
+		 * The subgoal is adding an integer to the linkedlist. 
+		 * The precondition of the loop is that the scanner has a string with numbers following the word in the string.
 		 */
 		while(scanner.hasNext()) {
 			inputNum.add(scanner.nextInt());
