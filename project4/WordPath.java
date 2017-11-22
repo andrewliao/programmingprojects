@@ -70,6 +70,10 @@ public class WordPath {
 	 */
 	public static LinkedList<Integer> getPath(int start, int destination, WordData[] words) {
 
+		if (words == null || words.length == 0) {
+			return null;
+		}
+		
 		if(start == destination) {
 			/** creating an output linkedlist that stores the integer of start */
 			LinkedList<Integer> output = new LinkedList<Integer>();
@@ -77,29 +81,26 @@ public class WordPath {
 			return output;
 		}
 		
-		try {
-			/** this linkedlist stores the linkedlist field of the WordData at the index start of the words WordData array*/
-			LinkedList<Integer> possibleNumbers = words[start].getLlData();
+		
+		/** this linkedlist stores the linkedlist field of the WordData at the index start of the words WordData array*/
+		LinkedList<Integer> possibleNumbers = words[start].getLlData();
 			
-			/** This for loop goal is to iterate and add the numbers that contribute from the path of the word
-			 * from the WordData at index of start to the WordData at index of destination. The precondition of 
-			 * the loop is that there are possible integers of the start index that could contain a possible path.
-			 * The subgoal goal is to see if the WordData at index of the integers possibility had been visited yet
-			 * and if it wasn't we set the boolean of visited to be true, meanwhile if a path is found we return it right away.
-			 *  */
-			for(Integer possibility: possibleNumbers) {
-				if (!words[possibility].getVisited()) {
-					words[possibility].setVisited(true);
-					/** This path variable stores the linkedlist of the integers containing the path after we do a recursively check for a solution. */
-					LinkedList<Integer> path = WordPath.getPath(possibility, destination, words);
-					if(path != null) {
-						path.addFirst(start);
-						return path;
-					}
+		/** This for loop goal is to iterate and add the numbers that contribute from the path of the word
+		 * from the WordData at index of start to the WordData at index of destination. The precondition of 
+		 * the loop is that there are possible integers of the start index that could contain a possible path.
+		 * The subgoal goal is to see if the WordData at index of the integers possibility had been visited yet
+		 * and if it wasn't we set the boolean of visited to be true, meanwhile if a path is found we return it right away.
+		 *  */
+		for(Integer possibility: possibleNumbers) {
+			if (!words[possibility].getVisited()) {
+				words[possibility].setVisited(true);
+				/** This path variable stores the linkedlist of the integers containing the path after we do a recursively check for a solution. */
+				LinkedList<Integer> path = WordPath.getPath(possibility, destination, words);
+				if(path != null) {
+					path.addFirst(start);
+					return path;
 				}
 			}
-		} catch(NullPointerException exc) { //if words is null
-			System.out.println("There is no possible path for this word!");
 		}
 		
 		return null;
@@ -114,6 +115,11 @@ public class WordPath {
 	public void getWordPath(String file) throws IOException {
 		/** This variable stores the boolean quit that when true quits this method. */
 		boolean quit = false;
+		/** 
+		 * This loop goal is to find paths for the words that the user inputs.
+		 * The precondition is that the boolean quit is false. The subgoal is to find a path
+		 * for the two words specified by the user.
+		 */
 		while(!quit) {
 			/** This words variable stores the WordData array of the entire file */
 			WordData[] words = WordPath.makeWordArray(file);
@@ -122,44 +128,67 @@ public class WordPath {
 			/** This stores the destination word that the user must specify. */
 			String word2 = JOptionPane.showInputDialog("Input word2:");
 			
-			/** This variable stores the boolean if we have found the WordData[] of the first word */
-			boolean found1 = false;
-			/
-			int lineOfWord1 = 0;
-			for(int i = 0; i < words.length; i++) {
-				if(word1.compareTo(words[i].getWord()) == 0) {
-					found1 = true;
-					lineOfWord1 = words[i].getLineNumber();
+			if(word1 != null && word2 != null) {
+				/** This variable stores the boolean if we have found the WordData[] of the first word */
+				boolean found1 = false;
+				/** this variable stores the line number of the first word */
+				int lineOfWord1 = 0;
+				/** This loops finds the starting index, which is the line number of the first word. 
+				 *  The subgoal is to see if the word1 matches an index in the WordData[] and if it does
+				 *  we set found to be true and we get the line number of the word. The precondition 
+				 *  is that that the WordData array is not null.
+				 */
+				for(int i = 0; i < words.length; i++) {
+					if(word1.compareTo(words[i].getWord()) == 0) {
+						found1 = true;
+						lineOfWord1 = words[i].getLineNumber();
+					}
+				}
+				
+				/** This variable stores the boolean if we have found the WordData[] of the second word */
+				boolean found2 = false;
+				/** this variable stores the line number of the second word */
+				int lineOfWord2 = 0;
+				/** This loops finds the starting index, which is the line number of the second word. 
+				 *  The subgoal is to see if the word2 matches an index in the WordData[] and if it does
+				 *  we set found to be true and we get the line number of the word. The precondition 
+				 *  is that that the WordData array is not null.
+				 */
+				for(int i = 0; i < words.length; i++) {
+					if(word2.compareTo(words[i].getWord()) == 0) {
+						found2 = true;
+						lineOfWord2 = words[i].getLineNumber();
+					}
+				}
+				
+				if(found1 == true && found2 == true) {
+					/** This stores the path from the first to the second word */
+					LinkedList<Integer> test = new LinkedList<Integer>();
+					test = WordPath.getPath(lineOfWord1, lineOfWord2, words);
+					/** 
+					 * The precondition is that the loop only occurs if both words are found. The goal is 
+					 * print the path in word form. The subgoal is printing each word field of the WordData at the Integer index.
+					 *  */
+					for(Integer index: test) {
+						System.out.println(words[index].getWord());
+					}
+				}
+				
+				/** The precondition of the loop is that WordsData[] words has at least a length of 1.
+				 * If it does, its goal is to set all the values back to false of the WordData field visited.
+				 * The subgoal is setting one WordData field of visited to false one at a time. 
+				 */
+				for(int i = 0; i < words.length; i++) {
+					words[i].setVisited(false);
 				}
 			}
 			
-			boolean found2 = false;
-			int lineOfWord2 = 0;
-			for(int i = 0; i < words.length; i++) {
-				if(word2.compareTo(words[i].getWord()) == 0) {
-					found2 = true;
-					lineOfWord2 = words[i].getLineNumber();
-				}
-			}
-			
-			System.out.println(lineOfWord1);
-			System.out.println(lineOfWord2);
-			
-			/** */
-			LinkedList<Integer> test = new LinkedList<Integer>();
-			test = WordPath.getPath(lineOfWord1, lineOfWord2, words);
-			for(Integer index: test) {
-				System.out.println(words[index].getWord());
-			}
-			
-			
-			for(int i = 0; i < words.length; i++) {
-				words[i].setVisited(false);
-			}
-			
-			/** */
+			/** This stores the string of whether or not the user wants to quit or do another iteration.
+			 *  If the user does not input anything and cancels out of the showInputDialog, we assume that
+			 *  the user wants to quit out of the application.
+			 */
 			String loop = JOptionPane.showInputDialog("Type quit if you want to stop, Otherwise anything else we will continue!");
-			if(loop.compareTo("quit") == 0) {
+			if(loop == null || loop.compareTo("quit") == 0 ) {
 				quit = true;
 			}
 		}
@@ -168,10 +197,11 @@ public class WordPath {
 		
 	public static void main(String[] args) {
 			try {
-				/** */
+				/** This stores a WordPath object which will call getWordPath with the first argument from the console being the file name */
 				WordPath x = new WordPath();
 				x.getWordPath(args[0]);
 			} catch(IOException exc) {
+				/** We catch an IOException if the file that the user inputed is not there and we return a statement.*/
 				System.out.println("File not found!");
 			}
 	}
