@@ -70,7 +70,7 @@ public class WordPath {
 	 */
 	public static LinkedList<Integer> getPath(int start, int destination, WordData[] words) {
 
-		if (words == null || words.length == 0) {
+		if (words == null || words.length < 1) {
 			return null;
 		}
 		
@@ -83,7 +83,7 @@ public class WordPath {
 		
 		
 		/** this linkedlist stores the linkedlist field of the WordData at the index start of the words WordData array*/
-		LinkedList<Integer> possibleNumbers = words[start].getLlData();
+		LinkedList<Integer> possibleNumbers = words[start].getMutatedIndices();
 			
 		/** This for loop goal is to iterate and add the numbers that contribute from the path of the word
 		 * from the WordData at index of start to the WordData at index of destination. The precondition of 
@@ -108,7 +108,7 @@ public class WordPath {
 	}
 	
 	/**
-	 * This method returns the 
+	 * This method gets the word path of the words indicated by the user.
 	 * @param file This is the variable that stores the name of the file.
 	 * @throws IOException Occurs when there is no such file.
 	 */
@@ -195,6 +195,10 @@ public class WordPath {
 		
 	}
 		
+   /**
+	 * This main method will get the path of the words indicated by the user and the file is indicated by the arguments.
+	 * @param args This contains the arguments of the file that the user will specify.
+	 */
 	public static void main(String[] args) {
 			try {
 				/** This stores a WordPath object which will call getWordPath with the first argument from the console being the file name */

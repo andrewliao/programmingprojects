@@ -30,14 +30,14 @@ public class WordDataTest {
 		z.add(20);
 		z.add(36);
 		z.add(38);
-		assertTrue(y.getLlData().containsAll(z));
+		assertTrue(y.getMutatedIndices().containsAll(z));
 		
 		/** testing 0: for the while loop in parseWordData. This mean there are no indices(or numbers)W after the word cat. */
 		WordData zero = WordData.parseWordData("0 cat");
 		assertTrue(zero.getVisited() == false);
 		assertTrue(zero.getLineNumber() == 0);
 		assertTrue(zero.getWord().compareTo("cat") == 0);
-		assertTrue(zero.getLlData().containsAll(new LinkedList<Integer>()));
+		assertTrue(zero.getMutatedIndices().containsAll(new LinkedList<Integer>()));
 		
 		/** testing 1: for the while loop in parseWordData. This means there is only one indices, 31, after the word cat. */
 		/** one variable to store the WordData with the fields set to the contents of the string*/
@@ -48,7 +48,7 @@ public class WordDataTest {
 		/** creating a linked list to store the indices after the word cat, which is only 31*/
 		LinkedList<Integer> num1 = new LinkedList<Integer>();
 		num1.add(31);
-		assertTrue(one.getLlData().containsAll(num1));
+		assertTrue(one.getMutatedIndices().containsAll(num1));
 		
 		/** testing many: for the while loop in parseWordData. This means there are two indices, 31, 47, after the word cat. */
 		WordData two = WordData.parseWordData("0 cat 31 47");
@@ -59,7 +59,7 @@ public class WordDataTest {
 		LinkedList<Integer> num2 = new LinkedList<Integer>();
 		num2.add(31);
 		num2.add(47);
-		assertTrue(two.getLlData().containsAll(num2));
+		assertTrue(two.getMutatedIndices().containsAll(num2));
 		
 	}
 

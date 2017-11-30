@@ -17,7 +17,7 @@ public class WordData {
 	/** stores a boolean describing if the data is marked*/
 	private boolean visited;
 	/** stores a LinkedList containing the index of the words which are just one character different */
-	private LinkedList<Integer> llData;
+	private LinkedList<Integer> mutatedIndices;
 	
 	/**
 	 * The getter method for the intData.
@@ -71,8 +71,8 @@ public class WordData {
 	 * The getter method for llData.
 	 * @return This returns the llData field of the WordData class.
 	 */
-	public LinkedList<Integer> getLlData() {
-		return llData;
+	public LinkedList<Integer> getMutatedIndices() {
+		return mutatedIndices;
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class WordData {
 	 * @param llData This is the data which we set the field of llData of WordData to be.
 	 */
 	public void setLlData(LinkedList<Integer> llData) {
-		this.llData = llData;
+		this.mutatedIndices = llData;
 	}
 	
 	/**
