@@ -19,20 +19,20 @@ public class SameGame extends Application {
 	public static int numRows = 12;
 	public static int numColumns = 12;
 	public static Button[][] buttons = new Button[numRows][numColumns];
+	public static int[][] colorsOfButtonIndex = new int[numRows][numColumns];
+  	public static final Color[] colors = new Color[] {
+			Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.BLACK,
+			Color.YELLOW, Color.ORANGE, Color.PINK, Color.RED, Color.BROWN, Color.LIGHTGRAY
+	};
+	
 	
    /**
      * This method returns a random color from a set of 10 possibilities.
      * @param numColors This specifies the number of Colors that the board needs.
      * @return This returns a random color.
      */
-    public static Color getColors(int numColors) {
-	    	/** colors stores an array of 10 possible values of colors */
-	    	Color[] colors = new Color[] {
-	    			Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.BLACK,
-	    			Color.YELLOW, Color.ORANGE, Color.PINK, Color.RED, Color.BROWN
-	    	};
-	    	
-	    	return colors[(int)(Math.random() * numColors)];
+    public static int getColorIndex(int numColors) {
+	    	return (int)(Math.random() * numColors);
     }
     
 
@@ -49,9 +49,12 @@ public class SameGame extends Application {
         }
        
         Circle x;
+        int y;
         for(int i = 0; i < 12; i++) {
         		for(int j = 0; j < 12; j++) {
-        			x = new Circle(10, SameGame.getColors(3));
+        			y = SameGame.getColorIndex(3);
+        			x = new Circle(10, colors[y]);
+        			colorsOfButtonIndex[i][j] = y;
         			buttons[i][j].setGraphic(x);
         		}
         }
@@ -72,28 +75,39 @@ public class SameGame extends Application {
     		@Override
     		public void handle(ActionEvent e) {
     			Button b = (Button)e.getSource();
-    			Color currentColor = (Color)((Circle)b.getGraphic()).getFill();
+    			int currentColorIndex = 0;
+    			for(int i = 0; i < 10; i++) {
+    				if(colors[i] == ((Circle)b.getGraphic()).getFill()) {
+    					currentColorIndex = i;
+    				}
+    			}
     			int[] buttonIndex = search(b);
     			int rowNumber = buttonIndex[0];
     			int columnNumber = buttonIndex[1];
-    			int numLeft = checkLeft(currentColor, rowNumber, columnNumber);
-    			int numRight = checkRight(currentColor, rowNumber, columnNumber);
-    			int numTop = checkTop(currentColor, rowNumber, columnNumber);
-    			int numBottom = checkBottom(currentColor, rowNumber, columnNumber);
-    			changeButtonColors(numLeft, numRight, numTop, numBottom, rowNumber, columnNumber);		
+    			int numLeft = checkLeft(currentColorIndex, rowNumber, columnNumber);
+    			System.out.println(numLeft);
+    			int numRight = checkRight(currentColorIndex, rowNumber, columnNumber);
+    			int numTop = checkTop(currentColorIndex, rowNumber, columnNumber);
+    			int numBottom = checkBottom(currentColorIndex, rowNumber, columnNumber);
+    			System.out.println(numRight);
+    			System.out.println(numTop);
+    			System.out.println(numBottom);
+    			//changeButtonColors(numLeft, numRight, numTop, numBottom, rowNumber, columnNumber);		
     			
     		}
+    		
+    		
     		
     		public void changeButtonColors(int left, int right, int top, int bottom, int rowNumber, int columnNumber) {
     			if(left > 1) {
     				for(int i = 0; i < left; i++) {
-    					((Circle)(SameGame.buttons[rowNumber][columnNumber - i].getGraphic())).setFill(Color.LIGHTGRAY);;
+    					((Circle)(SameGame.buttons[rowNumber][columnNumber - i].getGraphic())).setFill(Color.LIGHTGRAY);
     				}
     			}
     			
     			if(right > 1) {
     				for(int i = 0; i < right; i++) {
-    					((Circle)(SameGame.buttons[rowNumber][columnNumber + i].getGraphic())).setFill(Color.LIGHTGRAY);;
+    					((Circle)(SameGame.buttons[rowNumber][columnNumber + i].getGraphic())).setFill(Color.LIGHTGRAY);
     				}
     			}
     			
@@ -124,43 +138,43 @@ public class SameGame extends Application {
         		return buttonCoordinates;
         }
     		
-    		public int checkLeft(Color currentColor, int rowNumber, int columnNumber) {
+    		public int checkLeft(int colorIndex, int rowNumber, int columnNumber) {
     			if(columnNumber == -1) {
     				return 0;
-    			} else if(((Circle) (SameGame.buttons[rowNumber][columnNumber].getGraphic())).getFill() != currentColor) {
+    			} else if(colorsOfButtonIndex[rowNumber][columnNumber] != colorIndex) {
     				return 0;
     			} else {
-    				return 1 + checkLeft(currentColor, rowNumber, columnNumber - 1);
+    				return 1 + checkLeft(colorIndex, rowNumber, columnNumber - 1);
     			}
     		}
     		
-    		public int checkRight(Color currentColor, int rowNumber, int columnNumber) {
+    		public int checkRight(int colorIndex, int rowNumber, int columnNumber) {
     			if(columnNumber == 12) {
     				return 0;
-    			} else if(((Circle) (SameGame.buttons[rowNumber][columnNumber].getGraphic())).getFill() != currentColor) {
+    			} else if(colorsOfButtonIndex[rowNumber][columnNumber] != colorIndex) {
     				return 0;
     			} else {
-    				return 1 + checkRight(currentColor, rowNumber, columnNumber + 1);
+    				return 1 + checkRight(colorIndex, rowNumber, columnNumber + 1);
     			}
     		}
     		
-    		public int checkTop(Color currentColor, int rowNumber, int columnNumber) {
+    		public int checkTop(int colorIndex, int rowNumber, int columnNumber) {
     			if(rowNumber == -1) {
     				return 0;
-    			} else if(((Circle) (SameGame.buttons[rowNumber][columnNumber].getGraphic())).getFill() != currentColor) {
+    			} else if(colorsOfButtonIndex[rowNumber][columnNumber] != colorIndex) {
     				return 0;
     			} else {
-    				return 1 + checkTop(currentColor, rowNumber - 1, columnNumber);
+    				return 1 + checkTop(colorIndex, rowNumber - 1, columnNumber);
     			}
     		}
     		
-    		public int checkBottom(Color currentColor, int rowNumber, int columnNumber) {
+    		public int checkBottom(int colorIndex, int rowNumber, int columnNumber) {
     			if(rowNumber == 12) {
     				return 0;
-    			} else if(((Circle) (SameGame.buttons[rowNumber][columnNumber].getGraphic())).getFill() != currentColor) {
+    			} else if(colorsOfButtonIndex[rowNumber][columnNumber] != colorIndex) {
     				return 0;
     			} else {
-    				return 1 + checkBottom(currentColor, rowNumber + 1, columnNumber);
+    				return 1 + checkBottom(colorIndex, rowNumber + 1, columnNumber);
     			}
     		}
     		
