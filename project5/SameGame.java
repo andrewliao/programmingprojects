@@ -80,10 +80,36 @@ public class SameGame extends Application {
     			int numRight = checkRight(currentColor, rowNumber, columnNumber);
     			int numTop = checkTop(currentColor, rowNumber, columnNumber);
     			int numBottom = checkBottom(currentColor, rowNumber, columnNumber);
-    			System.out.println(numBottom);
-    			
+    			changeButtonColors(numLeft, numRight, numTop, numBottom, rowNumber, columnNumber);		
     			
     		}
+    		
+    		public void changeButtonColors(int left, int right, int top, int bottom, int rowNumber, int columnNumber) {
+    			if(left > 1) {
+    				for(int i = 0; i < left; i++) {
+    					((Circle)(SameGame.buttons[rowNumber][columnNumber - i].getGraphic())).setFill(Color.LIGHTGRAY);;
+    				}
+    			}
+    			
+    			if(right > 1) {
+    				for(int i = 0; i < right; i++) {
+    					((Circle)(SameGame.buttons[rowNumber][columnNumber + i].getGraphic())).setFill(Color.LIGHTGRAY);;
+    				}
+    			}
+    			
+    			if(top > 1) {
+    				for(int i = 0; i < top; i++) {
+    					((Circle)(SameGame.buttons[rowNumber - i][columnNumber].getGraphic())).setFill(Color.LIGHTGRAY);;
+    				}
+    			}
+    			
+    			if(bottom > 1) {
+    				for(int i = 0; i < bottom; i++) {
+    					((Circle)(SameGame.buttons[rowNumber + i][columnNumber].getGraphic())).setFill(Color.LIGHTGRAY);;
+    				}
+    			}
+    		}
+    		
     		
     		public int[] search(Button b) {
     			int[] buttonCoordinates = new int[2];
