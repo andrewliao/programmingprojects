@@ -77,8 +77,11 @@ public class SameGame extends Application {
     			int rowNumber = buttonIndex[0];
     			int columnNumber = buttonIndex[1];
     			int numLeft = checkLeft(currentColor, rowNumber, columnNumber);
-    			System.out.println(currentColor);
-    			System.out.println(numLeft);
+    			int numRight = checkRight(currentColor, rowNumber, columnNumber);
+    			int numTop = checkTop(currentColor, rowNumber, columnNumber);
+    			int numBottom = checkBottom(currentColor, rowNumber, columnNumber);
+    			System.out.println(numBottom);
+    			
     			
     		}
     		
@@ -96,13 +99,43 @@ public class SameGame extends Application {
         }
     		
     		public int checkLeft(Color currentColor, int rowNumber, int columnNumber) {
-    			int numberOnLeft = 0;
-    			for(int i = 0; i < columnNumber; i++) {
-    				if(((Circle) (SameGame.buttons[rowNumber][i].getGraphic())).getFill() == currentColor) {
-    					numberOnLeft++;
-    				}
+    			if(columnNumber == -1) {
+    				return 0;
+    			} else if(((Circle) (SameGame.buttons[rowNumber][columnNumber].getGraphic())).getFill() != currentColor) {
+    				return 0;
+    			} else {
+    				return 1 + checkLeft(currentColor, rowNumber, columnNumber - 1);
     			}
-    			return numberOnLeft;
+    		}
+    		
+    		public int checkRight(Color currentColor, int rowNumber, int columnNumber) {
+    			if(columnNumber == 12) {
+    				return 0;
+    			} else if(((Circle) (SameGame.buttons[rowNumber][columnNumber].getGraphic())).getFill() != currentColor) {
+    				return 0;
+    			} else {
+    				return 1 + checkRight(currentColor, rowNumber, columnNumber + 1);
+    			}
+    		}
+    		
+    		public int checkTop(Color currentColor, int rowNumber, int columnNumber) {
+    			if(rowNumber == -1) {
+    				return 0;
+    			} else if(((Circle) (SameGame.buttons[rowNumber][columnNumber].getGraphic())).getFill() != currentColor) {
+    				return 0;
+    			} else {
+    				return 1 + checkTop(currentColor, rowNumber - 1, columnNumber);
+    			}
+    		}
+    		
+    		public int checkBottom(Color currentColor, int rowNumber, int columnNumber) {
+    			if(rowNumber == 12) {
+    				return 0;
+    			} else if(((Circle) (SameGame.buttons[rowNumber][columnNumber].getGraphic())).getFill() != currentColor) {
+    				return 0;
+    			} else {
+    				return 1 + checkBottom(currentColor, rowNumber + 1, columnNumber);
+    			}
     		}
     		
     }
