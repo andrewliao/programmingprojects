@@ -22,7 +22,7 @@ public class SameGame extends Application {
 	public static int[][] colorsOfButtonIndex = new int[numRows][numColumns];
   	public static final Color[] colors = new Color[] {
 			Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.BLACK,
-			Color.YELLOW, Color.ORANGE, Color.PINK, Color.RED, Color.BROWN, Color.LIGHTGRAY
+			Color.YELLOW, Color.ORANGE, Color.PINK, Color.RED, Color.BROWN, Color.ALICEBLUE, Color.LIGHTGRAY
 	};
 	
 	
@@ -103,6 +103,7 @@ public class SameGame extends Application {
     			//	System.out.println();
     			//}
     			
+    			/**
     			for(int i = 0; i < vertical.length; i++) {
     				for(int j = 0; j < vertical[i].length; j++) {
     					System.out.print(vertical[i][j] + " ");
@@ -111,6 +112,15 @@ public class SameGame extends Application {
     			}
     			System.out.println();
     			System.out.println();
+    			
+    			*/
+    			for(int i = 0; i < 12; i++) {
+    				for(int j = 0; j < 12; j++) {
+    					((Circle)(SameGame.buttons[i][j].getGraphic())).setFill(colors[vertical[i][j]]);
+    				}
+    				
+    			}
+
     			
     			
     			
@@ -156,9 +166,9 @@ public class SameGame extends Application {
     			int bottomIndex = rowNumber + bottom - 1;
     			int topIndex = rowNumber - top;
     			
-    			if(totalToChange == 0 && left == 0 && right == 0) {
+    			if(top == 1 && bottom == 1 && left == 1 && right == 1) {
     				return colorIndex;
-    			} else if(totalToChange == 0) {
+    			} else if(top == 1 && bottom == 1) {
     				for(int i = rowNumber; i > -1; i--) {
     					if(i == 0) {
     						colorIndex[i][columnNumber] = 11;
@@ -169,16 +179,25 @@ public class SameGame extends Application {
     				return colorIndex;
     			} else {
     				//to change the buttons from bottom to top
-    				for(int i = 0; i < totalToChange; i++) {
-    					if(topIndex - i > -1) {
-    						colorIndex[bottomIndex - i][columnNumber] = colorIndex[topIndex - i][columnNumber];
+    				while(totalToChange > 0 || bottomIndex > -1) {
+    					if(totalToChange > 0) {
+    						if(topIndex > -1) {
+    							colorIndex[bottomIndex][columnNumber] = colorIndex[topIndex][columnNumber];
+    						} else {
+    							colorIndex[bottomIndex][columnNumber] = 11;
+    						}
+    						bottomIndex--;
+    						topIndex--;
+    						totalToChange--;
     					} else {
-    						colorIndex[bottomIndex - i][columnNumber] = 11;
+    						if(topIndex > -1) {
+    							colorIndex[bottomIndex][columnNumber] = colorIndex[topIndex][columnNumber];
+    						} else {
+    							colorIndex[bottomIndex][columnNumber] = 11;
+    						}
+    						bottomIndex--; 
+    						topIndex--;
     					}
-    				}
-    				
-    				for(int i = topIndex; i > -1; i--) {
-    					colorIndex[i][columnNumber] = 11;
     				}
     			}
     			
