@@ -81,18 +81,108 @@ public class SameGame extends Application {
     					currentColorIndex = i;
     				}
     			}
+    			
     			int[] buttonIndex = search(b);
     			int rowNumber = buttonIndex[0];
     			int columnNumber = buttonIndex[1];
-    			int numLeft = checkLeft(currentColorIndex, rowNumber, columnNumber);
-    			System.out.println(numLeft);
-    			int numRight = checkRight(currentColorIndex, rowNumber, columnNumber);
-    			int numTop = checkTop(currentColorIndex, rowNumber, columnNumber);
-    			int numBottom = checkBottom(currentColorIndex, rowNumber, columnNumber);
-    			System.out.println(numRight);
-    			System.out.println(numTop);
-    			System.out.println(numBottom);
-    			//changeButtonColors(numLeft, numRight, numTop, numBottom, rowNumber, columnNumber);		
+    			
+    			int numLeft = checkLeft(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    			int numRight = checkRight(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    			int numTop = checkTop(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    			int numBottom = checkBottom(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    
+    			int[][] leftSide = changeLeftToEmpty(numLeft, rowNumber, columnNumber, SameGame.colorsOfButtonIndex);
+    			int[][] rightSide = changeRightToEmpty(numRight, rowNumber, columnNumber, leftSide);
+    			int[][] vertical = changeVerticalToEmpty(numLeft, numRight, numTop, numBottom, rowNumber, columnNumber, rightSide);
+    			
+    			
+    			//for(int i = 0; i < bottomSide.length; i++) {
+    			//	for(int j = 0; j < bottomSide[i].length; j++) {
+    			//		System.out.print(bottomSide[i][j] + " ");
+    			//	}
+    			//	System.out.println();
+    			//}
+    			
+    			for(int i = 0; i < vertical.length; i++) {
+    				for(int j = 0; j < vertical[i].length; j++) {
+    					System.out.print(vertical[i][j] + " ");
+    				}
+    				System.out.println();
+    			}
+    			System.out.println();
+    			System.out.println();
+    			
+    			
+    			
+    			
+    			
+    		}
+    		
+    		public int[][] changeLeftToEmpty(int left, int rowNumber, int columnNumber, int[][] colorIndex) {
+    			if(left > 1) {
+    				for(int i = 1; i < left; i++) {
+    					for(int j = rowNumber; j > -1; j--) {
+    						if(j == 0) {
+    							colorIndex[j][columnNumber - i] = 11;
+    						} else {
+    							colorIndex[j][columnNumber - i] = colorIndex[j - 1][columnNumber - i];
+    						}
+    					}
+    				}
+    			}
+    			return colorIndex;
+    		}
+    		
+    		
+    		public int[][] changeRightToEmpty(int right, int rowNumber, int columnNumber, int[][] colorIndex) {
+    			if(right > 1) {
+    				for(int i = 1; i < right; i++) {	
+    					for(int j = rowNumber; j > -1 ; j--) {
+    						if(j == 0) {
+    							colorIndex[j][columnNumber + i] = 11;
+    						} else {
+    							colorIndex[j][columnNumber + i] = colorIndex[j - 1][columnNumber + i];
+    						}
+    					}
+    				}
+    			}
+    			
+    			return colorIndex;
+    			
+    		}
+    		
+    		public int[][] changeVerticalToEmpty(int left, int right, int top, int bottom, int rowNumber, int columnNumber, int[][] colorIndex) {
+    			int totalToChange = top + bottom - 2;
+    			int bottomIndex = rowNumber + bottom - 1;
+    			int topIndex = rowNumber - top;
+    			
+    			if(totalToChange == 0 && left == 0 && right == 0) {
+    				return colorIndex;
+    			} else if(totalToChange == 0) {
+    				for(int i = rowNumber; i > -1; i--) {
+    					if(i == 0) {
+    						colorIndex[i][columnNumber] = 11;
+    					} else {
+    						colorIndex[i][columnNumber] = colorIndex[i - 1][columnNumber];
+    					}
+    				}
+    				return colorIndex;
+    			} else {
+    				//to change the buttons from bottom to top
+    				for(int i = 0; i < totalToChange; i++) {
+    					if(topIndex - i > -1) {
+    						colorIndex[bottomIndex - i][columnNumber] = colorIndex[topIndex - i][columnNumber];
+    					} else {
+    						colorIndex[bottomIndex - i][columnNumber] = 11;
+    					}
+    				}
+    				
+    				for(int i = topIndex; i > -1; i--) {
+    					colorIndex[i][columnNumber] = 11;
+    				}
+    			}
+    			
+    			return colorIndex;
     			
     		}
     		
@@ -138,44 +228,64 @@ public class SameGame extends Application {
         		return buttonCoordinates;
         }
     		
-    		public int checkLeft(int colorIndex, int rowNumber, int columnNumber) {
-    			if(columnNumber == -1) {
-    				return 0;
-    			} else if(colorsOfButtonIndex[rowNumber][columnNumber] != colorIndex) {
-    				return 0;
-    			} else {
-    				return 1 + checkLeft(colorIndex, rowNumber, columnNumber - 1);
+    		public int checkLeft(int[][] colorIndex , int rowNumber, int columnNumber) {
+    			int colorValueOfButton = colorIndex[rowNumber][columnNumber];
+    			int numberInARow = 0;
+    			boolean contiguousIsSameColor = true;
+    			while(contiguousIsSameColor && columnNumber != -1) {
+    				if(colorIndex[rowNumber][columnNumber] == colorValueOfButton) {
+    					numberInARow++;
+    					columnNumber--;
+    				} else {
+    					contiguousIsSameColor = false;
+    				}
     			}
+    			return numberInARow;
     		}
     		
-    		public int checkRight(int colorIndex, int rowNumber, int columnNumber) {
-    			if(columnNumber == 12) {
-    				return 0;
-    			} else if(colorsOfButtonIndex[rowNumber][columnNumber] != colorIndex) {
-    				return 0;
-    			} else {
-    				return 1 + checkRight(colorIndex, rowNumber, columnNumber + 1);
+    		public int checkRight(int[][] colorIndex, int rowNumber, int columnNumber) {
+    			int colorValueOfButton = colorIndex[rowNumber][columnNumber];
+    			int numberInARow = 0;
+    			boolean contiguousIsSameColor = true;
+    			while(contiguousIsSameColor && columnNumber != 12) {
+    				if(colorIndex[rowNumber][columnNumber] == colorValueOfButton) {
+    					numberInARow++;
+    					columnNumber++;
+    				} else {
+    					contiguousIsSameColor = false;
+    				}
     			}
+    			return numberInARow;
     		}
     		
-    		public int checkTop(int colorIndex, int rowNumber, int columnNumber) {
-    			if(rowNumber == -1) {
-    				return 0;
-    			} else if(colorsOfButtonIndex[rowNumber][columnNumber] != colorIndex) {
-    				return 0;
-    			} else {
-    				return 1 + checkTop(colorIndex, rowNumber - 1, columnNumber);
+    		public int checkTop(int[][] colorIndex, int rowNumber, int columnNumber) {
+    			int colorValueOfButton = colorIndex[rowNumber][columnNumber];
+    			int numberInARow = 0;
+    			boolean contiguousIsSameColor = true;
+    			while(contiguousIsSameColor && rowNumber != -1) {
+    				if(colorIndex[rowNumber][columnNumber] == colorValueOfButton) {
+    					numberInARow++;
+    					rowNumber--;
+    				} else {
+    					contiguousIsSameColor = false;
+    				}
     			}
+    			return numberInARow;
     		}
     		
-    		public int checkBottom(int colorIndex, int rowNumber, int columnNumber) {
-    			if(rowNumber == 12) {
-    				return 0;
-    			} else if(colorsOfButtonIndex[rowNumber][columnNumber] != colorIndex) {
-    				return 0;
-    			} else {
-    				return 1 + checkBottom(colorIndex, rowNumber + 1, columnNumber);
+    		public int checkBottom(int[][] colorIndex, int rowNumber, int columnNumber) {
+    			int colorValueOfButton = colorIndex[rowNumber][columnNumber];
+    			int numberInARow = 0;
+    			boolean contiguousIsSameColor = true;
+    			while(contiguousIsSameColor && rowNumber != 12) {
+    				if(colorIndex[rowNumber][columnNumber] == colorValueOfButton) {
+    					numberInARow++;
+    					rowNumber++;
+    				} else {
+    					contiguousIsSameColor = false;
+    				}
     			}
+    			return numberInARow;
     		}
     		
     }
