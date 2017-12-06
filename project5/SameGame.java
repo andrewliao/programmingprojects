@@ -95,37 +95,49 @@ public class SameGame extends Application {
     			int[][] rightSide = changeRightToEmpty(numRight, rowNumber, columnNumber, leftSide);
     			int[][] vertical = changeVerticalToEmpty(numLeft, numRight, numTop, numBottom, rowNumber, columnNumber, rightSide);
     			
+    		
     			
-    			//for(int i = 0; i < bottomSide.length; i++) {
-    			//	for(int j = 0; j < bottomSide[i].length; j++) {
-    			//		System.out.print(bottomSide[i][j] + " ");
-    			//	}
-    			//	System.out.println();
-    			//}
+    			int[][] fullyChangedBoard = shiftLeftForEmptyColumns(vertical);
+    		
     			
-    			/**
-    			for(int i = 0; i < vertical.length; i++) {
-    				for(int j = 0; j < vertical[i].length; j++) {
-    					System.out.print(vertical[i][j] + " ");
-    				}
-    				System.out.println();
-    			}
-    			System.out.println();
-    			System.out.println();
-    			
-    			*/
     			for(int i = 0; i < 12; i++) {
     				for(int j = 0; j < 12; j++) {
-    					((Circle)(SameGame.buttons[i][j].getGraphic())).setFill(colors[vertical[i][j]]);
+    					((Circle)(SameGame.buttons[i][j].getGraphic())).setFill(colors[fullyChangedBoard[i][j]]);
     				}
     				
     			}
+    			
+    			System.out.println();
+    			System.out.println();
 
     			
     			
     			
     			
     			
+    		}
+    		
+    		public int[][] shiftLeftForEmptyColumns(int[][] colorIndex) {
+    			//this loop goes through all the columns of the colorIndex
+    			for(int i = 0; i < colorIndex[0].length; i++) {
+    				//checking if the bottom button is equal to gray
+    				if(colorIndex[colorIndex.length - 1][i] == 11) {
+    					boolean foundReplacementColumn = false;
+    					//start index at replacement + 1
+    					int start = i + 1;
+    					while(!foundReplacementColumn && start < colorIndex[0].length) {
+    						if(colorIndex[colorIndex.length - 1][start] != 11) {
+    							foundReplacementColumn = true;
+    							for(int k = 0; k < colorIndex.length; k++) {
+    								colorIndex[k][i] = colorIndex[k][start];
+    								colorIndex[k][start] = 11;
+    							}
+    						} 
+    						start++;
+    					}
+    				}
+    			}
+    			return colorIndex;
     		}
     		
     		public int[][] changeLeftToEmpty(int left, int rowNumber, int columnNumber, int[][] colorIndex) {
@@ -308,24 +320,6 @@ public class SameGame extends Application {
     		}
     		
     }
-    
-    
-    
-   
-    
-    /**
-    public boolean checkRight() {
-    	
-    }
-    
-    public boolean checkTop() {
-    	
-    }
-    
-    public boolean checkBottom() {
-    	
-    }
-    */
     
     public static void main(String[] args) {
         launch(args);
