@@ -1,6 +1,9 @@
 package project5;
 
 import javafx.scene.paint.Color;
+
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -39,48 +42,104 @@ public class SameGame extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        GridPane grid = new GridPane();
-        for(int i = 0; i < 12; i++) {
-        		for(int j = 0; j < 12; j++) {
-        			buttons[i][j] = new Button();
-        			grid.add(buttons[i][j], j, i);
+    		List<String> arguments = getParameters().getRaw();
+    		System.out.println(arguments);
+    		int numOfColors = 3;
+    		
+    		if(arguments.size() >= 3) {
+    			try {
+    				numRows = Integer.parseInt(arguments.get(0));
+    				numColumns = Integer.parseInt(arguments.get(1));
+    				numOfColors = Integer.parseInt(arguments.get(2));
+    				if(numOfColors != 11 && numOfColors > 0) {
+    					
+	    				SameGame.buttons = new Button[numRows][numColumns];
+	    				SameGame.colorsOfButtonIndex = new int[numRows][numColumns];
+	
+		    	    		GridPane grid = new GridPane();
+		    	        for(int i = 0; i < numRows; i++) {
+		    	        		for(int j = 0; j < numColumns; j++) {
+		    	        			buttons[i][j] = new Button();
+		    	        			grid.add(buttons[i][j], j, i);
+		    	 
+		    	        		}
+		    	        }
+		    	       
+		    	        Circle x;
+		    	        int y;
+		    	        for(int i = 0; i < numRows; i++) {
+		    	        		for(int j = 0; j < numColumns; j++) {
+		    	        			y = SameGame.getColorIndex(numOfColors);
+		    	        			x = new Circle(10, colors[y]);
+		    	        			colorsOfButtonIndex[i][j] = y;
+		    	        			buttons[i][j].setGraphic(x);
+		    	        		}
+		    	        }
+		    	        
+		    	        for(int i = 0; i < numRows; i++) {
+		    	        		for(int j = 0; j < numColumns; j++) {
+		    	        			buttons[i][j].setOnAction(new ButtonAction());
+		    	        		}
+		    	        }
+		    	        
+		    	        Scene scene = new Scene(grid);
+		    	        primaryStage.setScene(scene);
+		    	        primaryStage.show();
+    				} else {
+    					System.out.println("Must be between index of 1 and 10!");
+    				}
+    	        
+    			} catch(java.lang.NegativeArraySizeException e) {
+    				System.out.println("You cannot input a negative number as a row or column size!");
+    			} catch(java.lang.ArrayIndexOutOfBoundsException e) {
+    				System.out.println("You must input a color number between 1 and 10!");
+    			} catch(java.lang.NumberFormatException e) {
+    				System.out.println("Your input is not all numbers!");
+    			}
+    		} else if (arguments.size() == 0){
+
+        		GridPane grid = new GridPane();
+            for(int i = 0; i < numRows; i++) {
+            		for(int j = 0; j < numColumns; j++) {
+            			buttons[i][j] = new Button();
+            			grid.add(buttons[i][j], j, i);
+     
+            		}
+            }
+           
+            Circle x;
+            int y;
+            for(int i = 0; i < numRows; i++) {
+            		for(int j = 0; j < numColumns; j++) {
+            			y = SameGame.getColorIndex(numOfColors);
+            			x = new Circle(10, colors[y]);
+            			colorsOfButtonIndex[i][j] = y;
+            			buttons[i][j].setGraphic(x);
+            		}
+            }
+            
+            for(int i = 0; i < numRows; i++) {
+            		for(int j = 0; j < numColumns; j++) {
+            			buttons[i][j].setOnAction(new ButtonAction());
+            		}
+            }
+            
+            Scene scene = new Scene(grid);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            
+    		} else {
+    			System.out.println("Too few inputs given!");
+    		}
+    		
  
-        		}
-        }
-       
-        Circle x;
-        int y;
-        for(int i = 0; i < 12; i++) {
-        		for(int j = 0; j < 12; j++) {
-        			y = SameGame.getColorIndex(3);
-        			x = new Circle(10, colors[y]);
-        			colorsOfButtonIndex[i][j] = y;
-        			buttons[i][j].setGraphic(x);
-        		}
-        }
-        
-        for(int i = 0; i < 12; i++) {
-        		for(int j = 0; j < 12; j++) {
-        			buttons[i][j].setOnAction(new ButtonAction());
-        		}
-        }
-        
-        Scene scene = new Scene(grid);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        
     }
 
     public class ButtonAction implements EventHandler<ActionEvent> {
     		@Override
     		public void handle(ActionEvent e) {
     			Button b = (Button)e.getSource();
-    			int currentColorIndex = 0;
-    			for(int i = 0; i < 10; i++) {
-    				if(colors[i] == ((Circle)b.getGraphic()).getFill()) {
-    					currentColorIndex = i;
-    				}
-    			}
+
     			
     			int[] buttonIndex = search(b);
     			int rowNumber = buttonIndex[0];
@@ -100,8 +159,8 @@ public class SameGame extends Application {
     			int[][] fullyChangedBoard = shiftLeftForEmptyColumns(vertical);
     		
     			
-    			for(int i = 0; i < 12; i++) {
-    				for(int j = 0; j < 12; j++) {
+    			for(int i = 0; i < SameGame.numRows; i++) {
+    				for(int j = 0; j < SameGame.numColumns; j++) {
     					((Circle)(SameGame.buttons[i][j].getGraphic())).setFill(colors[fullyChangedBoard[i][j]]);
     				}
     				
@@ -218,34 +277,6 @@ public class SameGame extends Application {
     		}
     		
     		
-    		
-    		public void changeButtonColors(int left, int right, int top, int bottom, int rowNumber, int columnNumber) {
-    			if(left > 1) {
-    				for(int i = 0; i < left; i++) {
-    					((Circle)(SameGame.buttons[rowNumber][columnNumber - i].getGraphic())).setFill(Color.LIGHTGRAY);
-    				}
-    			}
-    			
-    			if(right > 1) {
-    				for(int i = 0; i < right; i++) {
-    					((Circle)(SameGame.buttons[rowNumber][columnNumber + i].getGraphic())).setFill(Color.LIGHTGRAY);
-    				}
-    			}
-    			
-    			if(top > 1) {
-    				for(int i = 0; i < top; i++) {
-    					((Circle)(SameGame.buttons[rowNumber - i][columnNumber].getGraphic())).setFill(Color.LIGHTGRAY);;
-    				}
-    			}
-    			
-    			if(bottom > 1) {
-    				for(int i = 0; i < bottom; i++) {
-    					((Circle)(SameGame.buttons[rowNumber + i][columnNumber].getGraphic())).setFill(Color.LIGHTGRAY);;
-    				}
-    			}
-    		}
-    		
-    		
     		public int[] search(Button b) {
     			int[] buttonCoordinates = new int[2];
         		for(int i = 0; i < SameGame.numRows; i++) {
@@ -278,7 +309,7 @@ public class SameGame extends Application {
     			int colorValueOfButton = colorIndex[rowNumber][columnNumber];
     			int numberInARow = 0;
     			boolean contiguousIsSameColor = true;
-    			while(contiguousIsSameColor && columnNumber != 12) {
+    			while(contiguousIsSameColor && columnNumber != colorIndex[0].length) {
     				if(colorIndex[rowNumber][columnNumber] == colorValueOfButton) {
     					numberInARow++;
     					columnNumber++;
@@ -308,7 +339,7 @@ public class SameGame extends Application {
     			int colorValueOfButton = colorIndex[rowNumber][columnNumber];
     			int numberInARow = 0;
     			boolean contiguousIsSameColor = true;
-    			while(contiguousIsSameColor && rowNumber != 12) {
+    			while(contiguousIsSameColor && rowNumber != colorIndex.length) {
     				if(colorIndex[rowNumber][columnNumber] == colorValueOfButton) {
     					numberInARow++;
     					rowNumber++;
@@ -322,7 +353,8 @@ public class SameGame extends Application {
     }
     
     public static void main(String[] args) {
-        launch(args);
+    		
+    		launch(args);
     }
 
     
