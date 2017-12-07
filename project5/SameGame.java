@@ -49,19 +49,32 @@ public class SameGame extends Application {
     		/** this will store the number of colors on the board */
     		int numOfColors = 3;
     		
-    		
     		if(arguments.size() >= 3) {
     			try {
     				numRows = Integer.parseInt(arguments.get(0));
     				numColumns = Integer.parseInt(arguments.get(1));
     				numOfColors = Integer.parseInt(arguments.get(2));
+    				
     				if(numOfColors != 11 && numOfColors > 0) {
-    					
+    					/** this will create a new button[][] according to the size indicated by the command line */
 	    				SameGame.buttons = new Button[numRows][numColumns];
+	    				/** this will store a new int[][] which has the index of the colors of the buttons on the board */
 	    				SameGame.colorsOfButtonIndex = new int[numRows][numColumns];
-	
+	    				
+	    				/** this will be the grid which will store all the buttons in the board */
 		    	    		GridPane grid = new GridPane();
+		    	    		
+		    	    		/**
+		    	    		 * The loop will iterate all the rows in the board. The precondition is that there is at least one row.
+		    	    		 * The goal of this loop is to check all the columns in each row. The subgoal is to
+		    	    		 * check all the columns for one row and create a button and add it to the grid.
+		    	    		 */
 		    	        for(int i = 0; i < numRows; i++) {
+		    	        		/**
+		    	        		 * The precondition of this loops is that there is at least one column. The goal is to 
+		    	        		 * create a button[][] for the SameGame board. The subgoal is that each column will have buttons
+		    	        		 * that will be added to the grid.
+		    	        		 */
 		    	        		for(int j = 0; j < numColumns; j++) {
 		    	        			buttons[i][j] = new Button();
 		    	        			grid.add(buttons[i][j], j, i);
@@ -69,26 +82,51 @@ public class SameGame extends Application {
 		    	        		}
 		    	        }
 		    	       
+		    	        /** This will store the circle object which will represent the graphic on the button */
 		    	        Circle x;
-		    	        int y;
+		    	        /** This stores the index of the colors for each of the buttons */
+		    	        int colorNumber;
+		    	        
+		    	        /**
+	    	    		     * The loop will iterate all the rows in the board. The precondition is that there is at least one row.
+	    	    	      	 * The goal of this loop is to check all the columns in each row. The subgoal is to
+	    	    		     * check all the columns for one row and add a graphic with a color on the button.
+	    	    		     */
 		    	        for(int i = 0; i < numRows; i++) {
+		    	        		/**
+		    	        		 * The precondition of this loops is that there is at least one column. The goal is to 
+		    	        		 * create an int[][] that stores the color indexes for the board and fill the graphic for all the buttons.
+		    	        		 *  The subgoal is that each column will have buttons that have a circle graphic with a color. 
+		    	        		 */
 		    	        		for(int j = 0; j < numColumns; j++) {
-		    	        			y = GameMechanics.getColorIndex(numOfColors);
-		    	        			x = new Circle(10, colors[y]);
-		    	        			colorsOfButtonIndex[i][j] = y;
+		    	        			colorNumber = GameMechanics.getColorIndex(numOfColors);
+		    	        			x = new Circle(10, colors[colorNumber]);
+		    	        			colorsOfButtonIndex[i][j] = colorNumber;
 		    	        			buttons[i][j].setGraphic(x);
 		    	        		}
 		    	        }
 		    	        
+		    	        /**
+		    	         * The loop will iterate all the rows in the board. The precondition is that there is at least one row.
+    	    	      	 	* The goal of this loop is to check all the columns in each row. The subgoal is to
+    	    	      	 	* check all the columns for one row and make sure that the buttons handles a user event.
+    	    	      	 	*/
 		    	        for(int i = 0; i < numRows; i++) {
+		    	        		/**
+		    	        		 * The precondition of this loops is that there is at least one column. The goal is to 
+		    	        		 * create an int[][] that stores the color indexes for the board and fill the graphic for all the buttons.
+		    	        		 *  The subgoal is that each column will have buttons that have a circle graphic with a color. 
+		    	        		 */
 		    	        		for(int j = 0; j < numColumns; j++) {
 		    	        			buttons[i][j].setOnAction(new ButtonAction());
 		    	        		}
 		    	        }
 		    	        
+		    	        /** This will store the elements for the stage, which means adding the gridpane. */
 		    	        Scene scene = new Scene(grid);
 		    	        primaryStage.setScene(scene);
 		    	        primaryStage.show();
+		    	        
     				} else {
     					System.out.println("Must be between index of 1 and 10!");
     				}
@@ -102,35 +140,71 @@ public class SameGame extends Application {
     			}
     		} else if (arguments.size() == 0){
 
-        		GridPane grid = new GridPane();
-            for(int i = 0; i < numRows; i++) {
-            		for(int j = 0; j < numColumns; j++) {
-            			buttons[i][j] = new Button();
-            			grid.add(buttons[i][j], j, i);
-     
-            		}
-            }
-           
-            Circle x;
-            int y;
-            for(int i = 0; i < numRows; i++) {
-            		for(int j = 0; j < numColumns; j++) {
-            			y = GameMechanics.getColorIndex(numOfColors);
-            			x = new Circle(10, colors[y]);
-            			colorsOfButtonIndex[i][j] = y;
-            			buttons[i][j].setGraphic(x);
-            		}
-            }
-            
-            for(int i = 0; i < numRows; i++) {
-            		for(int j = 0; j < numColumns; j++) {
-            			buttons[i][j].setOnAction(new ButtonAction());
-            		}
-            }
-            
-            Scene scene = new Scene(grid);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+			/** this will be the grid which will store all the buttons in the board */
+	    		GridPane grid = new GridPane();
+	    		
+	    		/**
+	    		 * The loop will iterate all the rows in the board. The precondition is that there is at least one row.
+	    		 * The goal of this loop is to check all the columns in each row. The subgoal is to
+	    		 * check all the columns for one row and create a button and add it to the grid.
+	    		 */
+	        for(int i = 0; i < numRows; i++) {
+	        		/**
+	        		 * The precondition of this loops is that there is at least one column. The goal is to 
+	        		 * create a button[][] for the SameGame board. The subgoal is that each column will have buttons
+	        		 * that will be added to the grid.
+	        		 */
+	        		for(int j = 0; j < numColumns; j++) {
+	        			buttons[i][j] = new Button();
+	        			grid.add(buttons[i][j], j, i);
+	 
+	        		}
+	        }
+	       
+	        /** This will store the circle object which will represent the graphic on the button */
+	        Circle x;
+	        /** This stores the index of the colors for each of the buttons */
+	        int colorNumber;
+	        
+	        /**
+    		     * The loop will iterate all the rows in the board. The precondition is that there is at least one row.
+    	      	 * The goal of this loop is to check all the columns in each row. The subgoal is to
+    		     * check all the columns for one row and add a graphic with a color on the button.
+    		     */
+	        for(int i = 0; i < numRows; i++) {
+	        		/**
+	        		 * The precondition of this loops is that there is at least one column. The goal is to 
+	        		 * create an int[][] that stores the color indexes for the board and fill the graphic for all the buttons.
+	        		 *  The subgoal is that each column will have buttons that have a circle graphic with a color. 
+	        		 */
+	        		for(int j = 0; j < numColumns; j++) {
+	        			colorNumber = GameMechanics.getColorIndex(numOfColors);
+	        			x = new Circle(10, colors[colorNumber]);
+	        			colorsOfButtonIndex[i][j] = colorNumber;
+	        			buttons[i][j].setGraphic(x);
+	        		}
+	        }
+	        
+	        /**
+	         * The loop will iterate all the rows in the board. The precondition is that there is at least one row.
+	      	 	* The goal of this loop is to check all the columns in each row. The subgoal is to
+	      	 	* check all the columns for one row and make sure that the buttons handles a user event.
+	      	 	*/
+	        for(int i = 0; i < numRows; i++) {
+	        		/**
+	        		 * The precondition of this loops is that there is at least one column. The goal is to 
+	        		 * create an int[][] that stores the color indexes for the board and fill the graphic for all the buttons.
+	        		 *  The subgoal is that each column will have buttons that have a circle graphic with a color. 
+	        		 */
+	        		for(int j = 0; j < numColumns; j++) {
+	        			buttons[i][j].setOnAction(new ButtonAction());
+	        		}
+	        }
+	        
+	        /** This will store the elements for the stage, which means adding the gridpane. */
+	        Scene scene = new Scene(grid);
+	        primaryStage.setScene(scene);
+	        primaryStage.show();
             
     		} else {
     			System.out.println("Too few inputs given!");
@@ -145,9 +219,21 @@ public class SameGame extends Application {
      * @return We should return an int[] which will hold the row and column numbers.
      */
     public int[] search(Button b) {
+    		/** this will store an int[] with the first index storing the row and the second index storing the column value */
 		int[] buttonCoordinates = new int[2];
 		
+		/** 
+		 * This loops iterates through the rows in the SameGame board. The prerequisite for the loop
+    		 * is that there is at least 1 row in the SameGame board we create. The subgoal of each iteration is 
+    		 * to go through the columns in each row of the the board with the next for loop. 
+    		 * The goal of this loop is to iterate through  all the rows in the board.
+		 */
 		for(int i = 0; i < SameGame.numRows; i++) {
+			/**
+			 * This loops iterates through the columns in the SameGame board. The prerequisite for the loop is
+			 * that there is at least 1 column in each row of the board. The subgoal of the board is to go through
+			 * each element in the column at a row. The goal is to obtain the coordinate of the button.
+			 */
 			for(int j = 0; j < SameGame.numColumns; j++) {
 				if(b == buttons[i][j]) {
 					buttonCoordinates[0] = i;
@@ -155,6 +241,7 @@ public class SameGame extends Application {
 				}
 			}
 		}	
+		
 		return buttonCoordinates;
     }
 
@@ -198,11 +285,18 @@ public class SameGame extends Application {
     			GameMechanics.shiftLeftForEmptyColumns(SameGame.colorsOfButtonIndex);
     			
     			/**
-    			 * 
+    			 * This loops iterates through the rows in the SameGame board. The prerequisite for the loop
+    			 * is that there is at least 1 row in the SameGame board we create. The subgoal of each iteration is 
+    			 * to go through the columns in each row of the the board. The goal of this loop is to iterate through
+    			 * all the rows in the board.
     			 */
     			for(int i = 0; i < SameGame.numRows; i++) {
     				/**
-    				 * 
+    				 * This loops iterates through the columns in the SameGame board. The prerequisite for the loop is
+    				 * that there is at least 1 column in each row of the board. The subgoal of the board is to make each
+    				 * element at the specific row indicated by i and the specific row indicated by j the correct color. The goal
+    				 * is to make the entire board have the correct color for the button which we will get the values from the
+    				 * colorsOfButton[][] index which will tell us what color in the colors[] field.
     				 */
     				for(int j = 0; j < SameGame.numColumns; j++) {
     					((Circle)(SameGame.buttons[i][j].getGraphic())).setFill(colors[SameGame.colorsOfButtonIndex[i][j]]);
