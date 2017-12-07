@@ -1,7 +1,13 @@
 package project5;
 
+/**
+ * This class will store the methods that handle all the game mechanics of the SameGame.
+ * @author Andrew Liao
+ *
+ */
+
 public class GameMechanics {
-	public static int[][] shiftDown(int[][] colorIndex) {
+	public static void shiftDown(int[][] colorIndex) {
 		//check every column
 		for(int i = 0; i < colorIndex[0].length; i++) {
 			//check through every row
@@ -20,47 +26,42 @@ public class GameMechanics {
 				}
 			}
 		}
-		return colorIndex;
 	}
 	
-	public static int[][] markLeftToEmpty(int left, int rowNumber, int columnNumber, int[][] colorIndex) {
+	public static void markLeftToEmpty(int left, int rowNumber, int columnNumber, int[][] colorIndex) {
 		if(left > 1) {
 			for(int i = 0; i < left; i++) {
 				colorIndex[rowNumber][columnNumber - i] = 11;
 			}
 		}
-		return colorIndex;
 	}
 	
-	public static int[][] markRightToEmpty(int right, int rowNumber, int columnNumber, int[][] colorIndex) {
+	public static void markRightToEmpty(int right, int rowNumber, int columnNumber, int[][] colorIndex) {
 		if(right > 1) {
 			for(int i = 0 ; i < right; i++) {
 				colorIndex[rowNumber][columnNumber + i] = 11;
 			}
 		}
-		return colorIndex;
 	}
 	
-	public static int[][] markTopToEmpty(int top, int rowNumber, int columnNumber, int[][] colorIndex) {
+	public static void markTopToEmpty(int top, int rowNumber, int columnNumber, int[][] colorIndex) {
 		if(top > 1) {
 			for(int i = 0; i < top; i++) {
 				colorIndex[rowNumber - i][columnNumber] = 11;
 			}
 		}
-		return colorIndex;
 	}
 	
-	public static int[][] markBottomToEmpty(int bottom, int rowNumber, int columnNumber, int[][] colorIndex) {
+	public static void markBottomToEmpty(int bottom, int rowNumber, int columnNumber, int[][] colorIndex) {
 		if (bottom > 1) {
 			for(int i = 0; i < bottom; i++) {
 				colorIndex[rowNumber + i][columnNumber] = 11;
 			}
 		}
-		return colorIndex;
 	}
 	
 	
-	public static int[][] shiftLeftForEmptyColumns(int[][] colorIndex) {
+	public static void shiftLeftForEmptyColumns(int[][] colorIndex) {
 		//this loop goes through all the columns of the colorIndex
 		for(int i = 0; i < colorIndex[0].length; i++) {
 			//checking if the bottom button is equal to gray
@@ -80,7 +81,6 @@ public class GameMechanics {
 				}
 			}
 		}
-		return colorIndex;
 	}
 	
 	public static int checkLeft(int[][] colorIndex , int rowNumber, int columnNumber) {

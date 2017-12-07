@@ -17,33 +17,38 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+/**
+ * This SameGame class is where we will start the application by creating the board and running the game.
+ * @author Andrew Liao
+ *
+ */
 public class SameGame extends Application {
 	
+	/** this stores the default number of rows in the board */
 	public static int numRows = 12;
+	/** this stores the default number of columns in the board */
 	public static int numColumns = 12;
+	/** this is the button array game board */
 	public static Button[][] buttons = new Button[numRows][numColumns];
+	/** this is stores the color indexes of each of the buttons on the board */
 	public static int[][] colorsOfButtonIndex = new int[numRows][numColumns];
+	/** this array stores all the possible colors for the board */
   	public static final Color[] colors = new Color[] {
 			Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.BLACK,
 			Color.YELLOW, Color.ORANGE, Color.PINK, Color.RED, Color.BROWN, Color.ALICEBLUE, Color.LIGHTGRAY
 	};
-	
-	
-   /**
-     * This method returns a random color from a set of 10 possibilities.
-     * @param numColors This specifies the number of Colors that the board needs.
-     * @return This returns a random color.
+
+    /** 
+     * This start method will start the application and run the SameGame. 
+     * @param primaryStage This is the stage of the application which will hold the board for the game.
      */
-    public static int getColorIndex(int numColors) {
-	    	return (int)(Math.random() * numColors);
-    }
-    
-
-
     @Override
     public void start(Stage primaryStage) {
+    		/** arguments will store all the arguments the user gives during command line */
     		List<String> arguments = getParameters().getRaw();
+    		/** this will store the number of colors on the board */
     		int numOfColors = 3;
+    		
     		
     		if(arguments.size() >= 3) {
     			try {
@@ -68,7 +73,7 @@ public class SameGame extends Application {
 		    	        int y;
 		    	        for(int i = 0; i < numRows; i++) {
 		    	        		for(int j = 0; j < numColumns; j++) {
-		    	        			y = SameGame.getColorIndex(numOfColors);
+		    	        			y = GameMechanics.getColorIndex(numOfColors);
 		    	        			x = new Circle(10, colors[y]);
 		    	        			colorsOfButtonIndex[i][j] = y;
 		    	        			buttons[i][j].setGraphic(x);
@@ -110,7 +115,7 @@ public class SameGame extends Application {
             int y;
             for(int i = 0; i < numRows; i++) {
             		for(int j = 0; j < numColumns; j++) {
-            			y = SameGame.getColorIndex(numOfColors);
+            			y = GameMechanics.getColorIndex(numOfColors);
             			x = new Circle(10, colors[y]);
             			colorsOfButtonIndex[i][j] = y;
             			buttons[i][j].setGraphic(x);
@@ -134,8 +139,14 @@ public class SameGame extends Application {
  
     }
     
+    /**
+     * This method will search the entire board array until we find the button.
+     * @param b This is the button which we will examine and find the coordinates of. 
+     * @return We should return an int[] which will hold the row and column numbers.
+     */
     public int[] search(Button b) {
 		int[] buttonCoordinates = new int[2];
+		
 		for(int i = 0; i < SameGame.numRows; i++) {
 			for(int j = 0; j < SameGame.numColumns; j++) {
 				if(b == buttons[i][j]) {
@@ -145,38 +156,67 @@ public class SameGame extends Application {
 			}
 		}	
 		return buttonCoordinates;
-}
+    }
 
+    /** 
+     * This is a nested class that will create an EventHandler for the buttons.
+     * We will need to override the handle method, which will tell us what to do when we press a button.
+     */
     public class ButtonAction implements EventHandler<ActionEvent> {
+    		
+    		/**
+    		 * This method will handle a button whenever someone clicks on it. This method must be 
+    		 * overridden when we implement an EventHandler.
+    		 * @param e This is what comes from the button when we click on it.
+    		 */
     		@Override
     		public void handle(ActionEvent e) {
+    			/** This will store the button that is pressed. */
     			Button b = (Button)e.getSource();
 
-    			
+    			/** This will store an index array that stores the row number and column number of the button */
     			int[] buttonIndex = search(b);
+    			/** rowNumber will store the row number of the button */
     			int rowNumber = buttonIndex[0];
+    			/** columnNumber will store the columnNumber of the button */
     			int columnNumber = buttonIndex[1];
     			
+    			/** numLeft will store the number of buttons to the left of the button clicked that could be cleared. */
     			int numLeft = GameMechanics.checkLeft(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    			/** numRight will store the number of buttons to the right of the button clicked that could be cleared. */
     			int numRight = GameMechanics.checkRight(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    			/** numTop will store the number of buttons to the top of the button clicked that could be cleared. */
     			int numTop = GameMechanics.checkTop(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    			/** numBottom will store the number of buttons to the bottom of the button clicked that could be cleared. */
     			int numBottom = GameMechanics.checkBottom(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
     
-    			int[][] leftSide = GameMechanics.markLeftToEmpty(numLeft, rowNumber, columnNumber, SameGame.colorsOfButtonIndex);
-    			int[][] rightSide = GameMechanics.markRightToEmpty(numRight, rowNumber, columnNumber, leftSide);
-    			int[][] topSide = GameMechanics.markTopToEmpty(numTop, rowNumber, columnNumber, rightSide);
-    			int[][] bottomSide = GameMechanics.markBottomToEmpty(numBottom, rowNumber, columnNumber, topSide);
-    			int[][] downShift = GameMechanics.shiftDown(bottomSide);
-    			int[][] leftShift = GameMechanics.shiftLeftForEmptyColumns(downShift);
+    		    GameMechanics.markLeftToEmpty(numLeft, rowNumber, columnNumber, SameGame.colorsOfButtonIndex);
+    		    GameMechanics.markRightToEmpty(numRight, rowNumber, columnNumber, SameGame.colorsOfButtonIndex);
+    			GameMechanics.markTopToEmpty(numTop, rowNumber, columnNumber, SameGame.colorsOfButtonIndex);
+    			GameMechanics.markBottomToEmpty(numBottom, rowNumber, columnNumber, SameGame.colorsOfButtonIndex);
+    			GameMechanics.shiftDown(SameGame.colorsOfButtonIndex);
+    			GameMechanics.shiftLeftForEmptyColumns(SameGame.colorsOfButtonIndex);
     			
+    			/**
+    			 * 
+    			 */
     			for(int i = 0; i < SameGame.numRows; i++) {
+    				/**
+    				 * 
+    				 */
     				for(int j = 0; j < SameGame.numColumns; j++) {
-    					((Circle)(SameGame.buttons[i][j].getGraphic())).setFill(colors[leftShift[i][j]]);
+    					((Circle)(SameGame.buttons[i][j].getGraphic())).setFill(colors[SameGame.colorsOfButtonIndex[i][j]]);
     				} 				
-    			}    		  			
-    		}   		
+    			}   
+    			
+    		}
+    		
     }
     
+    /**
+     * The main method is what is run to start the game application.
+     * @param args This stores the arguments that specifies the size of the board and the number of colors of the buttons.
+     */
     public static void main(String[] args) {   		
     		launch(args);
     }
