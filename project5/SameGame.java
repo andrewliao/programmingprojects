@@ -1,4 +1,4 @@
-package project5;
+ package project5;
 
 import javafx.scene.paint.Color;
 
@@ -43,7 +43,6 @@ public class SameGame extends Application {
     @Override
     public void start(Stage primaryStage) {
     		List<String> arguments = getParameters().getRaw();
-    		System.out.println(arguments);
     		int numOfColors = 3;
     		
     		if(arguments.size() >= 3) {
@@ -150,31 +149,84 @@ public class SameGame extends Application {
     			int numTop = checkTop(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
     			int numBottom = checkBottom(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
     
-    			int[][] leftSide = changeLeftToEmpty(numLeft, rowNumber, columnNumber, SameGame.colorsOfButtonIndex);
-    			int[][] rightSide = changeRightToEmpty(numRight, rowNumber, columnNumber, leftSide);
-    			int[][] vertical = changeVerticalToEmpty(numLeft, numRight, numTop, numBottom, rowNumber, columnNumber, rightSide);
-    			
-    		
-    			
-    			int[][] fullyChangedBoard = shiftLeftForEmptyColumns(vertical);
-    		
+    			int[][] leftSide = markLeftToEmpty(numLeft, rowNumber, columnNumber, SameGame.colorsOfButtonIndex);
+    			int[][] rightSide = markRightToEmpty(numRight, rowNumber, columnNumber, leftSide);
+    			int[][] topSide = markTopToEmpty(numTop, rowNumber, columnNumber, rightSide);
+    			int[][] bottomSide = markBottomToEmpty(numBottom, rowNumber, columnNumber, topSide);
+    			int[][] downShift = shiftDown(bottomSide);
+    			int[][] leftShift = shiftLeftForEmptyColumns(downShift);
     			
     			for(int i = 0; i < SameGame.numRows; i++) {
     				for(int j = 0; j < SameGame.numColumns; j++) {
-    					((Circle)(SameGame.buttons[i][j].getGraphic())).setFill(colors[fullyChangedBoard[i][j]]);
+    					((Circle)(SameGame.buttons[i][j].getGraphic())).setFill(colors[leftShift[i][j]]);
     				}
     				
     			}
-    			
-    			System.out.println();
-    			System.out.println();
-
     			
     			
     			
     			
     			
     		}
+    		
+    		public int[][] shiftDown(int[][] colorIndex) {
+    			//check every column
+    			for(int i = 0; i < colorIndex[0].length; i++) {
+    				//check through every row
+    				for(int j = colorIndex.length - 1; j > -1; j--) {
+    					if(colorIndex[j][i] == 11) {
+    						int start = j - 1;
+    						boolean foundReplacement = false;
+    						while(!foundReplacement && start > -1) {
+    							if(colorIndex[start][i] != 11) {
+    								colorIndex[j][i] = colorIndex[start][i];
+    								colorIndex[start][i] = 11;
+    								foundReplacement = true;
+    							}
+    							start--;
+    						}
+    					}
+    				}
+    			}
+    			return colorIndex;
+    		}
+    		
+    		public int[][] markLeftToEmpty(int left, int rowNumber, int columnNumber, int[][] colorIndex) {
+    			if(left > 1) {
+    				for(int i = 0; i < left; i++) {
+    					colorIndex[rowNumber][columnNumber - i] = 11;
+    				}
+    			}
+    			return colorIndex;
+    		}
+    		
+    		public int[][] markRightToEmpty(int right, int rowNumber, int columnNumber, int[][] colorIndex) {
+    			if(right > 1) {
+    				for(int i = 0 ; i < right; i++) {
+    					colorIndex[rowNumber][columnNumber + i] = 11;
+    				}
+    			}
+    			return colorIndex;
+    		}
+    		
+    		public int[][] markTopToEmpty(int top, int rowNumber, int columnNumber, int[][] colorIndex) {
+    			if(top > 1) {
+    				for(int i = 0; i < top; i++) {
+    					colorIndex[rowNumber - i][columnNumber] = 11;
+    				}
+    			}
+    			return colorIndex;
+    		}
+    		
+    		public int[][] markBottomToEmpty(int bottom, int rowNumber, int columnNumber, int[][] colorIndex) {
+    			if (bottom > 1) {
+    				for(int i = 0; i < bottom; i++) {
+    					colorIndex[rowNumber + i][columnNumber] = 11;
+    				}
+    			}
+    			return colorIndex;
+    		}
+    		
     		
     		public int[][] shiftLeftForEmptyColumns(int[][] colorIndex) {
     			//this loop goes through all the columns of the colorIndex
@@ -198,85 +250,7 @@ public class SameGame extends Application {
     			}
     			return colorIndex;
     		}
-    		
-    		public int[][] changeLeftToEmpty(int left, int rowNumber, int columnNumber, int[][] colorIndex) {
-    			if(left > 1) {
-    				for(int i = 1; i < left; i++) {
-    					for(int j = rowNumber; j > -1; j--) {
-    						if(j == 0) {
-    							colorIndex[j][columnNumber - i] = 11;
-    						} else {
-    							colorIndex[j][columnNumber - i] = colorIndex[j - 1][columnNumber - i];
-    						}
-    					}
-    				}
-    			}
-    			return colorIndex;
-    		}
-    		
-    		
-    		public int[][] changeRightToEmpty(int right, int rowNumber, int columnNumber, int[][] colorIndex) {
-    			if(right > 1) {
-    				for(int i = 1; i < right; i++) {	
-    					for(int j = rowNumber; j > -1 ; j--) {
-    						if(j == 0) {
-    							colorIndex[j][columnNumber + i] = 11;
-    						} else {
-    							colorIndex[j][columnNumber + i] = colorIndex[j - 1][columnNumber + i];
-    						}
-    					}
-    				}
-    			}
-    			
-    			return colorIndex;
-    			
-    		}
-    		
-    		public int[][] changeVerticalToEmpty(int left, int right, int top, int bottom, int rowNumber, int columnNumber, int[][] colorIndex) {
-    			int totalToChange = top + bottom - 2;
-    			int bottomIndex = rowNumber + bottom - 1;
-    			int topIndex = rowNumber - top;
-    			
-    			if(top == 1 && bottom == 1 && left == 1 && right == 1) {
-    				return colorIndex;
-    			} else if(top == 1 && bottom == 1) {
-    				for(int i = rowNumber; i > -1; i--) {
-    					if(i == 0) {
-    						colorIndex[i][columnNumber] = 11;
-    					} else {
-    						colorIndex[i][columnNumber] = colorIndex[i - 1][columnNumber];
-    					}
-    				}
-    				return colorIndex;
-    			} else {
-    				//to change the buttons from bottom to top
-    				while(totalToChange > 0 || bottomIndex > -1) {
-    					if(totalToChange > 0) {
-    						if(topIndex > -1) {
-    							colorIndex[bottomIndex][columnNumber] = colorIndex[topIndex][columnNumber];
-    						} else {
-    							colorIndex[bottomIndex][columnNumber] = 11;
-    						}
-    						bottomIndex--;
-    						topIndex--;
-    						totalToChange--;
-    					} else {
-    						if(topIndex > -1) {
-    							colorIndex[bottomIndex][columnNumber] = colorIndex[topIndex][columnNumber];
-    						} else {
-    							colorIndex[bottomIndex][columnNumber] = 11;
-    						}
-    						bottomIndex--; 
-    						topIndex--;
-    					}
-    				}
-    			}
-    			
-    			return colorIndex;
-    			
-    		}
-    		
-    		
+    	
     		public int[] search(Button b) {
     			int[] buttonCoordinates = new int[2];
         		for(int i = 0; i < SameGame.numRows; i++) {
@@ -359,4 +333,3 @@ public class SameGame extends Application {
 
     
 }
-
