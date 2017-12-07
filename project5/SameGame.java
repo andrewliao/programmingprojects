@@ -133,6 +133,19 @@ public class SameGame extends Application {
     		
  
     }
+    
+    public int[] search(Button b) {
+		int[] buttonCoordinates = new int[2];
+		for(int i = 0; i < SameGame.numRows; i++) {
+			for(int j = 0; j < SameGame.numColumns; j++) {
+				if(b == buttons[i][j]) {
+					buttonCoordinates[0] = i;
+					buttonCoordinates[1] = j;
+				}
+			}
+		}	
+		return buttonCoordinates;
+}
 
     public class ButtonAction implements EventHandler<ActionEvent> {
     		@Override
@@ -144,190 +157,27 @@ public class SameGame extends Application {
     			int rowNumber = buttonIndex[0];
     			int columnNumber = buttonIndex[1];
     			
-    			int numLeft = checkLeft(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
-    			int numRight = checkRight(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
-    			int numTop = checkTop(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
-    			int numBottom = checkBottom(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    			int numLeft = GameMechanics.checkLeft(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    			int numRight = GameMechanics.checkRight(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    			int numTop = GameMechanics.checkTop(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
+    			int numBottom = GameMechanics.checkBottom(SameGame.colorsOfButtonIndex, rowNumber, columnNumber);
     
-    			int[][] leftSide = markLeftToEmpty(numLeft, rowNumber, columnNumber, SameGame.colorsOfButtonIndex);
-    			int[][] rightSide = markRightToEmpty(numRight, rowNumber, columnNumber, leftSide);
-    			int[][] topSide = markTopToEmpty(numTop, rowNumber, columnNumber, rightSide);
-    			int[][] bottomSide = markBottomToEmpty(numBottom, rowNumber, columnNumber, topSide);
-    			int[][] downShift = shiftDown(bottomSide);
-    			int[][] leftShift = shiftLeftForEmptyColumns(downShift);
+    			int[][] leftSide = GameMechanics.markLeftToEmpty(numLeft, rowNumber, columnNumber, SameGame.colorsOfButtonIndex);
+    			int[][] rightSide = GameMechanics.markRightToEmpty(numRight, rowNumber, columnNumber, leftSide);
+    			int[][] topSide = GameMechanics.markTopToEmpty(numTop, rowNumber, columnNumber, rightSide);
+    			int[][] bottomSide = GameMechanics.markBottomToEmpty(numBottom, rowNumber, columnNumber, topSide);
+    			int[][] downShift = GameMechanics.shiftDown(bottomSide);
+    			int[][] leftShift = GameMechanics.shiftLeftForEmptyColumns(downShift);
     			
     			for(int i = 0; i < SameGame.numRows; i++) {
     				for(int j = 0; j < SameGame.numColumns; j++) {
     					((Circle)(SameGame.buttons[i][j].getGraphic())).setFill(colors[leftShift[i][j]]);
-    				}
-    				
-    			}
-    			
-    			
-    			
-    			
-    			
-    		}
-    		
-    		public int[][] shiftDown(int[][] colorIndex) {
-    			//check every column
-    			for(int i = 0; i < colorIndex[0].length; i++) {
-    				//check through every row
-    				for(int j = colorIndex.length - 1; j > -1; j--) {
-    					if(colorIndex[j][i] == 11) {
-    						int start = j - 1;
-    						boolean foundReplacement = false;
-    						while(!foundReplacement && start > -1) {
-    							if(colorIndex[start][i] != 11) {
-    								colorIndex[j][i] = colorIndex[start][i];
-    								colorIndex[start][i] = 11;
-    								foundReplacement = true;
-    							}
-    							start--;
-    						}
-    					}
-    				}
-    			}
-    			return colorIndex;
-    		}
-    		
-    		public int[][] markLeftToEmpty(int left, int rowNumber, int columnNumber, int[][] colorIndex) {
-    			if(left > 1) {
-    				for(int i = 0; i < left; i++) {
-    					colorIndex[rowNumber][columnNumber - i] = 11;
-    				}
-    			}
-    			return colorIndex;
-    		}
-    		
-    		public int[][] markRightToEmpty(int right, int rowNumber, int columnNumber, int[][] colorIndex) {
-    			if(right > 1) {
-    				for(int i = 0 ; i < right; i++) {
-    					colorIndex[rowNumber][columnNumber + i] = 11;
-    				}
-    			}
-    			return colorIndex;
-    		}
-    		
-    		public int[][] markTopToEmpty(int top, int rowNumber, int columnNumber, int[][] colorIndex) {
-    			if(top > 1) {
-    				for(int i = 0; i < top; i++) {
-    					colorIndex[rowNumber - i][columnNumber] = 11;
-    				}
-    			}
-    			return colorIndex;
-    		}
-    		
-    		public int[][] markBottomToEmpty(int bottom, int rowNumber, int columnNumber, int[][] colorIndex) {
-    			if (bottom > 1) {
-    				for(int i = 0; i < bottom; i++) {
-    					colorIndex[rowNumber + i][columnNumber] = 11;
-    				}
-    			}
-    			return colorIndex;
-    		}
-    		
-    		
-    		public int[][] shiftLeftForEmptyColumns(int[][] colorIndex) {
-    			//this loop goes through all the columns of the colorIndex
-    			for(int i = 0; i < colorIndex[0].length; i++) {
-    				//checking if the bottom button is equal to gray
-    				if(colorIndex[colorIndex.length - 1][i] == 11) {
-    					boolean foundReplacementColumn = false;
-    					//start index at replacement + 1
-    					int start = i + 1;
-    					while(!foundReplacementColumn && start < colorIndex[0].length) {
-    						if(colorIndex[colorIndex.length - 1][start] != 11) {
-    							foundReplacementColumn = true;
-    							for(int k = 0; k < colorIndex.length; k++) {
-    								colorIndex[k][i] = colorIndex[k][start];
-    								colorIndex[k][start] = 11;
-    							}
-    						} 
-    						start++;
-    					}
-    				}
-    			}
-    			return colorIndex;
-    		}
-    	
-    		public int[] search(Button b) {
-    			int[] buttonCoordinates = new int[2];
-        		for(int i = 0; i < SameGame.numRows; i++) {
-        			for(int j = 0; j < SameGame.numColumns; j++) {
-        				if(b == buttons[i][j]) {
-        					buttonCoordinates[0] = i;
-        					buttonCoordinates[1] = j;
-        				}
-        			}
-        		}	
-        		return buttonCoordinates;
-        }
-    		
-    		public int checkLeft(int[][] colorIndex , int rowNumber, int columnNumber) {
-    			int colorValueOfButton = colorIndex[rowNumber][columnNumber];
-    			int numberInARow = 0;
-    			boolean contiguousIsSameColor = true;
-    			while(contiguousIsSameColor && columnNumber != -1) {
-    				if(colorIndex[rowNumber][columnNumber] == colorValueOfButton) {
-    					numberInARow++;
-    					columnNumber--;
-    				} else {
-    					contiguousIsSameColor = false;
-    				}
-    			}
-    			return numberInARow;
-    		}
-    		
-    		public int checkRight(int[][] colorIndex, int rowNumber, int columnNumber) {
-    			int colorValueOfButton = colorIndex[rowNumber][columnNumber];
-    			int numberInARow = 0;
-    			boolean contiguousIsSameColor = true;
-    			while(contiguousIsSameColor && columnNumber != colorIndex[0].length) {
-    				if(colorIndex[rowNumber][columnNumber] == colorValueOfButton) {
-    					numberInARow++;
-    					columnNumber++;
-    				} else {
-    					contiguousIsSameColor = false;
-    				}
-    			}
-    			return numberInARow;
-    		}
-    		
-    		public int checkTop(int[][] colorIndex, int rowNumber, int columnNumber) {
-    			int colorValueOfButton = colorIndex[rowNumber][columnNumber];
-    			int numberInARow = 0;
-    			boolean contiguousIsSameColor = true;
-    			while(contiguousIsSameColor && rowNumber != -1) {
-    				if(colorIndex[rowNumber][columnNumber] == colorValueOfButton) {
-    					numberInARow++;
-    					rowNumber--;
-    				} else {
-    					contiguousIsSameColor = false;
-    				}
-    			}
-    			return numberInARow;
-    		}
-    		
-    		public int checkBottom(int[][] colorIndex, int rowNumber, int columnNumber) {
-    			int colorValueOfButton = colorIndex[rowNumber][columnNumber];
-    			int numberInARow = 0;
-    			boolean contiguousIsSameColor = true;
-    			while(contiguousIsSameColor && rowNumber != colorIndex.length) {
-    				if(colorIndex[rowNumber][columnNumber] == colorValueOfButton) {
-    					numberInARow++;
-    					rowNumber++;
-    				} else {
-    					contiguousIsSameColor = false;
-    				}
-    			}
-    			return numberInARow;
-    		}
-    		
+    				} 				
+    			}    		  			
+    		}   		
     }
     
-    public static void main(String[] args) {
-    		
+    public static void main(String[] args) {   		
     		launch(args);
     }
 
