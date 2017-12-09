@@ -232,6 +232,487 @@ public class SameGameTest {
 	}
 	
 	@Test
+	public void testMarkLeftToEmptyTestZero() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 1;
+		index[1][0] = 7;
+		index[1][1] = 8;
+		
+		GameMechanics.markLeftToEmpty(0, 0, 1, index);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for left input */
+		assertTrue(index[0][0] == 4);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for left input */
+		assertTrue(index[0][1] == 1);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for left input */
+		assertTrue(index[1][0] == 7);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for left input */
+		assertTrue(index[1][1] == 8);
+	}
+	
+	@Test
+	public void testMarkLeftToEmptyTestOne() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 1;
+		index[1][0] = 7;
+		index[1][1] = 8;
+		
+		GameMechanics.markLeftToEmpty(1, 0, 1, index);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 1 for left input */
+		assertTrue(index[0][0] == 4);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 1 for left input */
+		assertTrue(index[0][1] == 1);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 1 for left input */
+		assertTrue(index[1][0] == 7);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 1 for left input */
+		assertTrue(index[1][1] == 8);
+	}
+	
+	@Test
+	public void testMarkLeftToEmptyTestMany() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markLeftToEmpty(2, 1, 1, index);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][1] == 8);
+		/** this should become empty as this is the left element that becomes empty as it is contiguous to the button */
+		assertTrue(index[1][0] == 11);
+		/** the button element should also turn empty */
+		assertTrue(index[1][1] == 11);
+	}
+	
+	@Test
+	public void testMarkLeftToEmptyTestFirst() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 8;
+		index[0][1] = 5;
+		index[1][0] = 11;
+		index[1][1] = 6;
+		
+		GameMechanics.markLeftToEmpty(0, 0, 0, index);
+		/** this should test that nothing changes because no elements to the left of the button */
+		assertTrue(index[0][0] == 8);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][1] == 5);
+		/** this should become empty as this is the left element that becomes empty as it is contiguous to the button */
+		assertTrue(index[1][0] == 11);
+		/** the button element should also turn empty */
+		assertTrue(index[1][1] == 6);
+	}
+	
+	@Test
+	public void testMarkLeftToEmptyTestMiddle() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markLeftToEmpty(2, 1, 1, index);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][1] == 8);
+		/** this should become empty as this is the left element that becomes empty as it is contiguous to the button */
+		assertTrue(index[1][0] == 11);
+		/** the button element should also turn empty */
+		assertTrue(index[1][1] == 11);
+	}
+	
+	@Test
+	public void testMarkLeftToEmptyTestLast() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markLeftToEmpty(2, 1, 1, index);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][1] == 8);
+		/** this should become empty as this is the left element that becomes empty as it is contiguous to the button */
+		assertTrue(index[1][0] == 11);
+		/** the button element should also turn empty */
+		assertTrue(index[1][1] == 11);
+	}
+	
+	@Test
+	public void testMarkRightToEmptyTestZero() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 1;
+		index[1][0] = 7;
+		index[1][1] = 8;
+		
+		GameMechanics.markRightToEmpty(0, 0, 1, index);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for right input */
+		assertTrue(index[0][0] == 4);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for right input */
+		assertTrue(index[0][1] == 1);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for right input */
+		assertTrue(index[1][0] == 7);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for right input */
+		assertTrue(index[1][1] == 8);
+	}
+	
+	@Test
+	public void testMarkRightToEmptyTestOne() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 1;
+		index[1][0] = 7;
+		index[1][1] = 8;
+		
+		GameMechanics.markRightToEmpty(1, 0, 1, index);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 1 for right input */
+		assertTrue(index[0][0] == 4);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 1 for right input */
+		assertTrue(index[0][1] == 1);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 1 for right input */
+		assertTrue(index[1][0] == 7);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 1 for right input */
+		assertTrue(index[1][1] == 8);
+	}
+	
+	@Test
+	public void testMarkRightToEmptyTestMany() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markRightToEmpty(2, 1, 0, index);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][1] == 8);
+		/** this should become empty as this is the right element that becomes empty as it is contiguous to the button */
+		assertTrue(index[1][0] == 11);
+		/** the button element should also turn empty */
+		assertTrue(index[1][1] == 11);
+	}
+	
+	@Test
+	public void testMarkRightToEmptyTestFirst() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 8;
+		index[0][1] = 8;
+		index[1][0] = 11;
+		index[1][1] = 6;
+		
+		GameMechanics.markRightToEmpty(2, 0, 0, index);
+		/** this should change the button and the button to the right to be 11  */
+		assertTrue(index[0][0] == 11);
+		/** this should change the button and the button to the right to be 11  */
+		assertTrue(index[0][1] == 11);
+		/** this should remain the same as this button is not affected */
+		assertTrue(index[1][0] == 11);
+		/** this should remain the same as this button is not affected */
+		assertTrue(index[1][1] == 6);
+	}
+	
+	@Test
+	public void testMarkRightToEmptyTestMiddle() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markRightToEmpty(2, 1, 0, index);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][1] == 8);
+		/** the button element should also turn empty */
+		assertTrue(index[1][0] == 11);
+		/** this should become empty as this is the right element that becomes empty as it is contiguous to the button */
+		assertTrue(index[1][1] == 11);
+	}
+	
+	@Test
+	public void testMarkRightToEmptyTestLast() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markRightToEmpty(0, 1, 1, index);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][1] == 8);
+		/** this should remain the same as this it is the element to the left of the button */
+		assertTrue(index[1][0] == 8);
+		/** this should remain the same as nothing can go off the board */
+		assertTrue(index[1][1] == 8);
+	}
+	
+	@Test
+	public void testMarkTopToEmptyTestZero() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 1;
+		index[1][0] = 7;
+		index[1][1] = 8;
+		
+		GameMechanics.markTopToEmpty(0, 0, 1, index);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for top input */
+		assertTrue(index[0][0] == 4);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for top input */
+		assertTrue(index[0][1] == 1);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for top input */
+		assertTrue(index[1][0] == 7);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for top input */
+		assertTrue(index[1][1] == 8);
+	}
+	
+	@Test
+	public void testMarkTopToEmptyTestOne() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 1;
+		index[1][0] = 7;
+		index[1][1] = 8;
+		
+		GameMechanics.markTopToEmpty(0, 0, 1, index);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for top input */
+		assertTrue(index[0][0] == 4);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for top input */
+		assertTrue(index[0][1] == 1);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for top input */
+		assertTrue(index[1][0] == 7);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for top input */
+		assertTrue(index[1][1] == 8);
+	}
+	
+	@Test
+	public void testMarkTopToEmptyTestMany() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markTopToEmpty(2, 1, 1, index);
+		/** this should remain the same as this row is not the column of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should as this column is the same as the one as the button and is the one that is contiguous with the same index */
+		assertTrue(index[0][1] == 11);
+		/** this should remain the same as this row is not the column of the button */
+		assertTrue(index[1][0] == 8);
+		/** this should as this column is the same as the one as the button */
+		assertTrue(index[1][1] == 11);
+	}
+	
+	@Test
+	public void testMarkTopToEmptyTestFirst() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 8;
+		index[0][1] = 8;
+		index[1][0] = 11;
+		index[1][1] = 6;
+		
+		GameMechanics.markTopToEmpty(0, 0, 0, index);
+		/** this should check that nothing changed as the button is on the top  */
+		assertTrue(index[0][0] == 8);
+		/** this should check that nothing changed as the button is on the top  */
+		assertTrue(index[0][1] == 8);
+		/** this should check that nothing changed as the button is on the top  */
+		assertTrue(index[1][0] == 11);
+		/** this should check that nothing changed as the button is on the top  */
+		assertTrue(index[1][1] == 6);
+	}
+	
+	@Test
+	public void testMarkTopToEmptyTestMiddle() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markTopToEmpty(2, 1, 1, index);
+		/** this should remain the same as this row is not the column of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should as this column is the same as the one as the button and is the one that is contiguous with the same index */
+		assertTrue(index[0][1] == 11);
+		/** this should remain the same as this row is not the column of the button */
+		assertTrue(index[1][0] == 8);
+		/** this should as this column is the same as the one as the button */
+		assertTrue(index[1][1] == 11);
+	}
+	
+	@Test
+	public void testMarkTopToEmptyTestLast() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markTopToEmpty(2, 1, 1, index);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should remain the same as this row is not the row of the button */
+		assertTrue(index[0][1] == 11);
+		/** this should remain the same as this it is the element to the left of the button */
+		assertTrue(index[1][0] == 8);
+		/** this should remain the same as nothing can go off the board */
+		assertTrue(index[1][1] == 11);
+	}
+	
+	@Test
+	public void testMarkBottomToEmptyTestZero() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 1;
+		index[1][0] = 7;
+		index[1][1] = 8;
+		
+		GameMechanics.markBottomToEmpty(0, 0, 1, index);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for bottom input */
+		assertTrue(index[0][0] == 4);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for bottom input */
+		assertTrue(index[0][1] == 1);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for bottom input */
+		assertTrue(index[1][0] == 7);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for bottom input */
+		assertTrue(index[1][1] == 8);
+	}
+	
+	@Test
+	public void testMarkBottomToEmptyTestOne() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 1;
+		index[1][0] = 7;
+		index[1][1] = 8;
+		
+		GameMechanics.markBottomToEmpty(0, 0, 1, index);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for bottom input */
+		assertTrue(index[0][0] == 4);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for bottom input */
+		assertTrue(index[0][1] == 1);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for bottom input */
+		assertTrue(index[1][0] == 7);
+		/** this should check that the element is the same as we said there is no element the same as the button, indicated by 0 for bottom input */
+		assertTrue(index[1][1] == 8);
+	}
+	
+	@Test
+	public void testMarkBottomToEmptyTestMany() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markBottomToEmpty(2, 0, 1, index);
+		/** this should remain the same as this row is not the column of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should change as this column is the same as the one as the button and is the one that is contiguous with the same index */
+		assertTrue(index[0][1] == 11);
+		/** this should remain the same as this row is not the column of the button */
+		assertTrue(index[1][0] == 8);
+		/** this should change  as this column is the same as the one as the button */
+		assertTrue(index[1][1] == 11);
+	}
+	
+	@Test
+	public void testMarkBottomToEmptyTestFirst() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 8;
+		index[0][1] = 9;
+		index[1][0] = 8;
+		index[1][1] = 6;
+		
+		GameMechanics.markBottomToEmpty(2, 0, 0, index);
+		/** this should change because the top element is the button with a contiguous element   */
+		assertTrue(index[0][0] == 11);
+		/** this should check that nothing changed as it is not contiguous with the button */
+		assertTrue(index[0][1] == 9);
+		/** this should change as it represents the button that is contiguous with the button */
+		assertTrue(index[1][0] == 11);
+		/** this should check that nothing changed as it is not contiguous with the button */
+		assertTrue(index[1][1] == 6);
+	}
+	
+	@Test
+	public void testMarkBottomToEmptyTestMiddle() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markBottomToEmpty(2, 0, 1, index);
+		/** this should remain the same as this row is not the column of the button */
+		assertTrue(index[0][0] == 4);
+		/** this should change as this column is the same as the one as the button and is the one that is contiguous with the same index */
+		assertTrue(index[0][1] == 11);
+		/** this should remain the same as this row is not the column of the button */
+		assertTrue(index[1][0] == 8);
+		/** this should change  as this column is the same as the one as the button */
+		assertTrue(index[1][1] == 11);
+	}
+	
+	@Test
+	public void testMarkBottomToEmptyTestLast() {
+		/** creating a two by two int[][]*/
+		int[][] index = new int[2][2];
+		index[0][0] = 4;
+		index[0][1] = 8;
+		index[1][0] = 8;
+		index[1][1] = 8;
+		
+		GameMechanics.markBottomToEmpty(0, 1, 1, index);
+		/** this should remain the same as there is no button underneath it */
+		assertTrue(index[0][0] == 4);
+		/** this should remain the same as there is no button underneath it */
+		assertTrue(index[0][1] == 8);
+		/** this should remain the same as there is no button underneath it */
+		assertTrue(index[1][0] == 8);
+		/** this should remain the same as there is no button underneath it */
+		assertTrue(index[1][1] == 8);
+	}
+	
+	
+	@Test
 	public void testShiftLeftTestZeroRows() {
 		/** creating an int[][] with zero rows */
 		int[][] index = new int[0][5];
@@ -345,7 +826,37 @@ public class SameGameTest {
 	
 	@Test
 	public void testShiftLeftMiddle() {
+		/** creating an int[][] with 3 by 3 dimensions */
+		int[][] index = new int[3][3];
+		index[0][0] = 5;
+		index[0][1] = 11;
+		index[0][2] = 9;
+		index[1][0] = 11;
+		index[1][1] = 11;
+		index[1][2] = 11;
+		index[2][0] = 7;
+		index[2][1] = 11;
+		index[2][2] = 5;
 		
+		GameMechanics.shiftLeftForEmptyColumns(index);
+		/** this column should remained unchanged as no empty column before it */
+		assertTrue(index[0][0] == 5);
+		/** this column should remained unchanged as no empty column before it */
+		assertTrue(index[1][0] == 11);
+		/** this column should remained unchanged as no empty column before it */
+		assertTrue(index[2][0] == 7);
+		/** this checks we moved the third column into the second as the second was empty and the third wasn't */
+		assertTrue(index[0][1] == 9);
+		/** this checks we moved the third column into the second as the second was empty and the third wasn't */
+		assertTrue(index[1][1] == 11);
+		/** this checks we moved the third column into the second as the second was empty and the third wasn't */
+		assertTrue(index[2][1] == 5);
+		/** this checks we moved the empty column into the rightmost column */
+		assertTrue(index[0][2] == 11);
+		/** this checks we moved the empty column into the rightmost column */
+		assertTrue(index[1][2] == 11);
+		/** this checks we moved the empty column into the rightmost column */
+		assertTrue(index[2][2] == 11);
 	}
 	
 	@Test
