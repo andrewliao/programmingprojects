@@ -563,11 +563,11 @@ public class SameGameTest {
 		GameMechanics.markTopToEmpty(2, 1, 1, index);
 		/** this should remain the same as this row is not the column of the button */
 		assertTrue(index[0][0] == 4);
-		/** this should as this column is the same as the one as the button and is the one that is contiguous with the same index */
+		/** this should change  as this column is the same as the one as the button and is the one that is contiguous with the same index */
 		assertTrue(index[0][1] == 11);
 		/** this should remain the same as this row is not the column of the button */
 		assertTrue(index[1][0] == 8);
-		/** this should as this column is the same as the one as the button */
+		/** this should change as this column is the same as the one as the button */
 		assertTrue(index[1][1] == 11);
 	}
 	
@@ -879,7 +879,171 @@ public class SameGameTest {
 		assertTrue(index[1][1] == 11);
 	}
 	
+	@Test
+	public void testCheckLeftTestZero() {
+		/** creating a 1 by 3 array int[][] array */
+		int[][] index = new int[1][3];
+		index[0][0] = 5;
+		index[0][1] = 11;
+		index[0][2] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkLeft(index, 0, 2);
+		/** when no numbers to the left are contiguous, we should check that it equals 1 */
+		assertTrue(numberInARow == 1);
+	}
 	
+	@Test
+	public void testCheckLeftTestOne() {
+		/** creating a 1 by 3 array int[][] array */
+		int[][] index = new int[1][3];
+		index[0][0] = 5;
+		index[0][1] = 9;
+		index[0][2] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkLeft(index, 0, 2);
+		/** when one numbers to the left are contiguous, we should check that it equals 2 */
+		assertTrue(numberInARow == 2);
+	}
 	
-
+	@Test 
+	public void testCheckLeftTestMany() {
+		/** creating a 1 by 3 array int[][] array */
+		int[][] index = new int[1][3];
+		index[0][0] = 9;
+		index[0][1] = 9;
+		index[0][2] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkLeft(index, 0, 2);
+		/** when the numbers to the left are contiguous, we should check that it equals 3 */
+		assertTrue(numberInARow == 3);
+	}
+	
+	@Test
+	public void testCheckRightTestZero() {
+		/** creating a 1 by 3 array int[][] array */
+		int[][] index = new int[1][3];
+		index[0][0] = 5;
+		index[0][1] = 11;
+		index[0][2] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkRight(index, 0, 1);
+		/** when no numbers to the right are contiguous, we should check that it equals 1 */
+		assertTrue(numberInARow == 1);
+	}
+	
+	@Test
+	public void testCheckRightTestOne() {
+		/** creating a 1 by 3 array int[][] array */
+		int[][] index = new int[1][3];
+		index[0][0] = 5;
+		index[0][1] = 9;
+		index[0][2] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkRight(index, 0, 1);
+		/** when one numbers to the right are contiguous, we should check that it equals 2 */
+		assertTrue(numberInARow == 2);
+	}
+	
+	@Test 
+	public void testCheckRightTestMany() {
+		/** creating a 1 by 3 array int[][] array */
+		int[][] index = new int[1][3];
+		index[0][0] = 9;
+		index[0][1] = 9;
+		index[0][2] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkRight(index, 0, 0);
+		/** when the numbers to the right are contiguous, we should check that it equals 3 */
+		assertTrue(numberInARow == 3);
+	}
+	
+	@Test
+	public void testCheckTopTestZero() {
+		/** creating a 3 by 1 array int[][] array */
+		int[][] index = new int[3][1];
+		index[0][0] = 5;
+		index[1][0] = 11;
+		index[2][0] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkTop(index, 2, 0);
+		/** when no numbers to the top are contiguous, we should check that it equals 1 */
+		assertTrue(numberInARow == 1);
+	}
+	
+	@Test
+	public void testCheckTopTestOne() {
+		/** creating a 3 by 1 array int[][] array */
+		int[][] index = new int[3][1];
+		index[0][0] = 5;
+		index[1][0] = 9;
+		index[2][0] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkTop(index, 2, 0);
+		/** when one numbers to the top are contiguous, we should check that it equals 2 */
+		assertTrue(numberInARow == 2);
+	}
+	
+	@Test 
+	public void testCheckTopTestMany() {
+		/** creating a 3 by 1 array int[][] array */
+		int[][] index = new int[3][1];
+		index[0][0] = 9;
+		index[1][0] = 9;
+		index[2][0] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkTop(index, 2, 0);
+		/** when the numbers to the top are contiguous, we should check that it equals 3 */
+		assertTrue(numberInARow == 3);
+	}
+	
+	@Test
+	public void testCheckBottomTestZero() {
+		/** creating a 3 by 1 array int[][] array */
+		int[][] index = new int[3][1];
+		index[0][0] = 5;
+		index[1][0] = 11;
+		index[2][0] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkBottom(index, 0, 0);
+		/** when no numbers to the bottom are contiguous, we should check that it equals 1 */
+		assertTrue(numberInARow == 1);
+	}
+	
+	@Test
+	public void testCheckBottomTestOne() {
+		/** creating a 3 by 1 array int[][] array */
+		int[][] index = new int[3][1];
+		index[0][0] = 9;
+		index[1][0] = 9;
+		index[2][0] = 5;
+		
+		
+		int numberInARow = GameMechanics.checkBottom(index, 0, 0);
+		/** when one numbers to the bottom are contiguous, we should check that it equals 2 */
+		assertTrue(numberInARow == 2);
+	}
+	
+	@Test 
+	public void testCheckBottomTestMany() {
+		/** creating a 3 by 1 array int[][] array */
+		int[][] index = new int[3][1];
+		index[0][0] = 9;
+		index[1][0] = 9;
+		index[2][0] = 9;
+		
+		
+		int numberInARow = GameMechanics.checkBottom(index, 0, 0);
+		/** when the numbers to the bottom are contiguous, we should check that it equals 3 */
+		assertTrue(numberInARow == 3);
+	}
 }
